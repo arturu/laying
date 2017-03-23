@@ -1,0 +1,12 @@
+{
+  "name": "arturu/laying",
+  "description": "Laying",
+  "minimum-stability": "dev",
+  "license": "GPL v3",
+  "authors": [
+    {
+      "name": "Pietro Arturo Panetta",
+      "email": "arturu@arturu.it"
+    }
+  ]
+}
