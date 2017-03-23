@@ -1,0 +1,116 @@
+# Costruire un array ricorsivo come segue:
+#
+# tag: # tagID, nome univoco a libera scelta
+#   type: div|null # opzionale, se non definito viene impostato div
+#   html5: header|nav|footer|ecc|null # opzionale, se non definito il valore viene impostato come tag type
+#   htmlOptions: # opzionale, attributi html
+#     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato tagID come id=""
+#     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
+#     foo: bar # qualsiasi coppia attributo:valore dei tag html
+#   region: regionName # il nome della regione da posizionare, se questa opzione è settata: items non verrà ciclato
+#   items: # un array annidato con altri tag, verrà eseguito se region non è settato
+#
+
+page: # tagId
+  htmlOptions: { class: page-default }
+
+  items:
+    header: #tagId
+      html5: header
+      region: slideshow # il nome univoco della region
+
+    nav: #tagId
+      html5: nav
+      htmlOptions: { class: nav }
+      region: navbar
+
+    preContent: #tagId
+      htmlOptions: { class: container }
+
+      items:
+        rowPreContent: #tagId
+          htmlOptions: { class: row }
+
+          items:
+            preContentFirst: #tagId
+              htmlOptions: { class: col-xs-12 col-md-6 }
+              region: preContentFirst
+
+            preContentSecond: #tagId
+              htmlOptions: { class: col-xs-12 col-md-6 }
+              region: preContentSecond
+
+    content: #tagId
+      htmlOptions: { class: container }
+
+      items:
+        rowContent: #tagId
+          htmlOptions: { class: row }
+
+          items:
+            content: #tagId
+              html5: content
+              htmlOptions: { class: col-xs-12 col-md-8 }
+              region: content
+
+            aside: #tagId
+              html5: aside
+              htmlOptions: { class: col-xs-12 col-md-4 }
+              region: sidebar
+
+    afterContent: #tagId
+      htmlOptions: { class: container }
+
+      items:
+        rowAfterContent: #tagId
+          htmlOptions: { class: row }
+
+          items:
+            afterContentFirst: #tagId
+              htmlOptions: { class: col-xs-12 col-md-4 }
+              region: afterContentFirst
+
+            afterContentSecond: #tagId
+              htmlOptions: { class: col-xs-12 col-md-4 }
+              region: afterContentSecond
+
+            afterContentThird: #tagId
+              htmlOptions: { class: col-xs-12 col-md-4 }
+              region: afterContentThird
+
+    footer: #tagId
+      html5: footer
+      htmlOptions: { class: container }
+
+      items:
+        rowFooterFirst: #tagId
+          htmlOptions: { class: row }
+
+          items:
+            footerFirst: #tagId
+              htmlOptions: { class: col-xs-12 col-md-3 }
+              region: footerFirst
+
+            footerSecond: #tagId
+              htmlOptions: { class: col-xs-12 col-md-3 }
+              region: footerSecond
+
+            footerThird: #tagId
+              htmlOptions: { class: col-xs-12 col-md-3 }
+              region: footerThird
+
+            footerFourth: #tagId
+              htmlOptions: { class: col-xs-12 col-md-3 }
+              region: footerFourth
+
+        rowFooterSecond: #tagId
+          htmlOptions: { class: row }
+
+          items:
+            footerCopy: #tagId
+              htmlOptions: { class: col-xs-6 }
+              region: footerCopy
+
+            footerCredits: #tagId
+              htmlOptions: { class: col-xs-6 }
+              region: footerCredits
