@@ -4,9 +4,10 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Arturu\Laying\Command\MakeCommand;
 
 $application = new Application();
 
-/* TODO comandi */
+$application->add(new MakeCommand());
 
 $application->run();

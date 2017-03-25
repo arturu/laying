@@ -35,7 +35,7 @@ class Element
 
         // if implicit
         if ( isset($element['implicit']) && $element['implicit'] ) {
-            // out: <tag /> or <tag attr="value" />
+            // out: <tag attr="value" ... />
             return $output . ' />';
         }
         // or not implicit
@@ -51,7 +51,7 @@ class Element
         // close element
         $output .= '</'.$elementType.'>';
 
-        // out: <tag attr="value">...</tag>
+        // out: <tag attr="value" ...>...</tag>
         return trim($output);
     }
 

@@ -10,8 +10,8 @@ layout:
 tag:
   wrapper: true # inserisce un contenitore esterno al tag da generare
   inner: true # inserisce un contenitore interno al tag da generare
-  pre: true # inserisce prima della regione un'altra regione
-  post: true # inserisce dopo la regione un'altra regione
+  preRegion: true # inserisce prima della regione un'altra regione
+  postRegion: true # inserisce dopo la regione un'altra regione
   idAuto: true # genera automaticamente l'id univoco per ogni elemento
   classAuto: true # genera automaticamente i nomi delle classi per ogni elemento
 
