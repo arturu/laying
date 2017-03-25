@@ -4,10 +4,10 @@
 namespace Arturu\Laying;
 
 /**
- * Class Tag
+ * Class Element
  * @package Arturu\Laying
  */
-class Tag
+class Element
 {
 
     /**
