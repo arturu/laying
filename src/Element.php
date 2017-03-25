@@ -10,8 +10,58 @@ namespace Arturu\Laying;
 class Element
 {
 
+
+    /**
+     * @param array $element
+     *  array(
+     *    'type'=> 'tag',
+     *    'attributes'=> array, // see self::attributes
+     *    'implicit'=> bool, // true for implicit
+     *    'content' => string, // tag content
+     *  )
+     * @return string
+     */
+    public static function element(array $element)
+    {
+        $elementType = $element['type'];
+
+        // open element
+        $output = '<'.$elementType;
+
+        // setting attributes
+        if ( isset($element['attributes']) ) {
+            $output .= ' ' . self::attributes($element['attributes']);
+        }
+
+        // if implicit
+        if ( isset($element['implicit']) && $element['implicit'] ) {
+            // out: <tag /> or <tag attr="value" />
+            return $output . ' />';
+        }
+        // or not implicit
+        else {
+            $output .= '>';
+        }
+
+        // put the content into element
+        if ( isset($element['content']) && $element['content'] ) {
+            $output .= $element['content'];
+        }
+
+        // close element
+        $output .= '</'.$elementType.'>';
+
+        // out: <tag attr="value">...</tag>
+        return trim($output);
+    }
+
     /**
      * @param array $attributes
+     *   array(
+     *     'key'=>'value',
+     *     'key'=> array("value","value","value",...),
+     *     ...
+     *   )
      * @return string
      */
     public static function attributes(array $attributes)
