@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
+use Arturu\Laying\Element;
+
 class MakeCommand extends Command
 {
 
@@ -24,7 +26,7 @@ class MakeCommand extends Command
                 'type',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Opration type',
+                'Operation type: template|test. Use --type=test for test make command',
                 'template'
             )
 
@@ -33,12 +35,12 @@ class MakeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Template name',
-                1
+                null
             )
 
             // the full Command description shown when running the Command with
             // the "--help" option
-            ->setHelp('This Command allows you to render your page template. ')
+            ->setHelp('This Command allows you to render template page. ')
         ;
     }
 
@@ -49,10 +51,27 @@ class MakeCommand extends Command
         if ($operationType=='template'){
             $this->createTemplate($input,$output);
         }
+
+        if ($operationType=='test'){
+            $this->test($output);
+        }
     }
 
     protected function createTemplate (InputInterface $input, OutputInterface $output){
 
         $output->writeln($input->getOption('name'));
+    }
+
+
+    protected function test (OutputInterface $output){
+
+        $a = array(
+            'type'=> 'div',
+            'attributes'=> array("id"=>"idElement","class"=>"col-xs-12 region"), // see self::attributes
+            'implicit'=> false, // true for implicit
+            'content' => "{{ content }}", // tag content
+        );
+
+        $output->writeln( Element::element($a) );
     }
 }
