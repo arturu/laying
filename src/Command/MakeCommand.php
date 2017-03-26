@@ -40,7 +40,7 @@ class MakeCommand extends Command
 
             // the full Command description shown when running the Command with
             // the "--help" option
-            ->setHelp('This Command allows you to render template page. ')
+            ->setHelp('This Command allows you to render template page.')
         ;
     }
 
