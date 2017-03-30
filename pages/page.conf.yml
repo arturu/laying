@@ -2,23 +2,22 @@
 ## NB per riutilizzare questa configurazione anche per altri layout
 
 # impostazioni per questo layout
-layout:
-  name: page # il nome del layout
-  type: twig # il tipo di layout da generare, twig, php, smarty, drupal7 ecc
+layoutName: page # il nome del layout
 
 # Questa sezione definisce come laying genera i tag HTML
-tag:
+element:
   wrapper: true # inserisce un contenitore esterno al tag da generare
   inner: true # inserisce un contenitore interno al tag da generare
   preRegion: true # inserisce prima della regione un'altra regione
   postRegion: true # inserisce dopo la regione un'altra regione
   idAuto: true # genera automaticamente l'id univoco per ogni elemento
   classAuto: true # genera automaticamente i nomi delle classi per ogni elemento
+  defaultType: div # il tipo di default se non definito
 
 # gestisce il comportamento della generazione dei file di template
 file:
-  # Se viene impostato un path (inserire "/" finale) il layout verrà salvato su file.
-  # Altrimenti, settare su "false" per non generare il file e farlo calcore al volo,
+  # Se viene impostato un path (inserendo "/" finale) il layout verrà salvato su file.
+  # Altrimenti, settare su "false" per non generare il file e calcolarlo ogni volta,
   # può essere utile in fase di sviluppo ma impegna molte risorse di sistema
   path: /path/to/folder/template/
 
@@ -28,7 +27,8 @@ file:
   # del layout, altrimenti, settare su "false" per non utilizzare questa funzionalità
   backup: /path/to/folder/template-backups/
 
-# inserisce un blocco di dimensione fissa, utile in fase di sviluppo della struttura della pagina
-debug_block:
+# inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
+# la struttura della pagina senza contenuti generati dal CMS
+debugBlock:
   active: false # se attivo o meno
-  htmlOptions: { class: well }
+  attributes: { class: well }

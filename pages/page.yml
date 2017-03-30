@@ -1,6 +1,6 @@
 # Costruire un array ricorsivo come segue:
 #
-# element: # tagID, nome univoco a libera scelta
+# element: # elementID, nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
 #   attributes: # opzionale, attributi html
 #     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato tagID come id=""
@@ -10,106 +10,106 @@
 #   items: # un array annidato con altri tag, verrà eseguito se region non è settato
 #
 
-page: # tagId
+page: #elementID
   attributes: { class: page-default }
 
   items:
-    header: #tagId
+    header: #elementID
       type: header
-      region: slideshow # il nome univoco della region
+      region: '{{ slideshow }}' # il nome univoco della region
 
-    nav: #tagId
+    nav: #elementID
       type: nav
       attributes: { class: nav }
-      region: navbar
+      region: '{{ navbar }}'
 
-    preContent: #tagId
+    preContent: #elementID
       attributes: { class: container }
 
       items:
-        rowPreContent: #tagId
+        rowPreContent: #elementID
           attributes: { class: row }
 
           items:
-            preContentFirst: #tagId
+            preContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: preContentFirst
+              region: '{{ preContentFirst }}'
 
-            preContentSecond: #tagId
+            preContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: preContentSecond
+              region: '{{ preContentSecond }}'
 
-    content: #tagId
+    content: #elementID
       attributes: { class: container }
 
       items:
-        rowContent: #tagId
+        rowContent: #elementID
           attributes: { class: row }
 
           items:
-            content: #tagId
+            content: #elementID
               type: content
               attributes: { class: col-xs-12 col-md-8 }
-              region: content
+              region: '{{ content }}'
 
-            aside: #tagId
+            aside: #elementID
               type: aside
               attributes: { class: col-xs-12 col-md-4 }
-              region: sidebar
+              region: '{{ sidebar }}'
 
-    afterContent: #tagId
+    afterContent: #elementID
       attributes: { class: container }
 
       items:
-        rowAfterContent: #tagId
+        rowAfterContent: #elementID
           attributes: { class: row }
 
           items:
-            afterContentFirst: #tagId
+            afterContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: afterContentFirst
+              region: '{{ afterContentFirst }}'
 
-            afterContentSecond: #tagId
+            afterContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: afterContentSecond
+              region: '{{ afterContentSecond }}'
 
-            afterContentThird: #tagId
+            afterContentThird: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: afterContentThird
+              region: '{{ afterContentThird }}'
 
-    footer: #tagId
+    footer: #elementID
       type: footer
       attributes: { class: container }
 
       items:
-        rowFooterFirst: #tagId
+        rowFooterFirst: #elementID
           attributes: { class: row }
 
           items:
-            footerFirst: #tagId
+            footerFirst: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: footerFirst
+              region: '{{ footerFirst }}'
 
-            footerSecond: #tagId
+            footerSecond: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: footerSecond
+              region: '{{ footerSecond }}'
 
-            footerThird: #tagId
+            footerThird: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: footerThird
+              region: '{{ footerThird }}'
 
-            footerFourth: #tagId
+            footerFourth: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: footerFourth
+              region: '{{ footerFourth }}'
 
-        rowFooterSecond: #tagId
+        rowFooterSecond: #elementID
           attributes: { class: row }
 
           items:
-            footerCopy: #tagId
+            footerCopy: #elementID
               attributes: { class: col-xs-6 }
-              region: footerCopy
+              region: '{{ footerCopy }}'
 
-            footerCredits: #tagId
+            footerCredits: #elementID
               attributes: { class: col-xs-6 }
-              region: footerCredits
+              region: '{{ footerCredits }}'
