@@ -17,7 +17,7 @@ edit configuration file
 ```
 nano examples/page.yml
 ```
-e launch
+and launch
 
 ```
 php bin/console make --type test
