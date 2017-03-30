@@ -3,12 +3,11 @@
 
 namespace Arturu\Laying\Command;
 
+use Arturu\Laying\Laying;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-
-use Arturu\Laying\Element;
 
 class MakeCommand extends Command
 {
@@ -57,21 +56,20 @@ class MakeCommand extends Command
         }
     }
 
-    protected function createTemplate (InputInterface $input, OutputInterface $output){
+    protected function createTemplate (InputInterface $input, OutputInterface $output)
+    {
 
         $output->writeln($input->getOption('name'));
     }
 
 
-    protected function test (OutputInterface $output){
-
-        $a = array(
-            'type'=> 'div',
-            'attributes'=> array("id"=>"idElement","class"=>"col-xs-12 region"), // see self::attributes
-            'implicit'=> false, // true for implicit
-            'content' => "{{ content }}", // tag content
+    protected function test (OutputInterface $output)
+    {
+        $laying = new Laying(
+            __DIR__.'/../../pages/page.conf.yml',
+            __DIR__.'/../../pages/page.yml'
         );
 
-        $output->writeln( Element::element($a) );
+        $output->writeln( $laying->renderLayout() );
     }
 }
