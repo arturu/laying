@@ -66,8 +66,8 @@ class MakeCommand extends Command
     protected function test (OutputInterface $output)
     {
         $laying = new Laying(
-            __DIR__.'/../../pages/page.conf.yml',
-            __DIR__.'/../../pages/page.yml'
+            __DIR__.'/../../examples/page.conf.yml',
+            __DIR__.'/../../examples/page.yml'
         );
 
         $output->writeln( $laying->renderLayout() );

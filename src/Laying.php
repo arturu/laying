@@ -112,7 +112,6 @@ class Laying
      */
     private function attributes($key, $item)
     {
-        $output = "";
 
         if ( isset($this->conf['element']['idAuto']) && !isset($item['attributes']['id']) ) {
             $item['attributes']['id'] = $key;
@@ -127,7 +126,7 @@ class Laying
             }
         }
 
-        $output .= Element::attributes($item['attributes']);
+        $output = Element::attributes($item['attributes']);
 
         return trim($output);
     }
