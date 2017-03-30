@@ -9,6 +9,7 @@ class Laying
 {
     private $conf;
     private $layout;
+    private $keyList;
 
     /**
      * Laying constructor.
@@ -49,7 +50,15 @@ class Laying
     {
         $output = "";
 
-        foreach ($items as $key => $item){
+        foreach ($items as $key => $item) {
+
+            // search duplicate elementID
+            if ( !isset($this->keyList[$key]) ) {
+                $this->keyList[$key] = true;
+            }
+            else {
+                throw new Exception($key.' duplicate elementID');
+            }
 
             // set element type
             if (!isset($item['type']) || $item['type']==null ){
@@ -63,9 +72,7 @@ class Laying
             $output .= '<'.$elementType;
 
             // setting attributes
-            if ( isset($item['attributes']) ) {
-                $output .= ' ' . Element::attributes($item['attributes']);
-            }
+            $output .= ' ' . $this->attributes($key,$item);
 
             // if implicit
             if ( isset($item['implicit']) && $item['implicit'] ) {
@@ -77,11 +84,14 @@ class Laying
                 $output .= '>';
             }
 
-            if ( isset($item['items']) && is_array($item['items']) ){
+            // recursive function
+            if ( isset($item['items']) && is_array($item['items']) ) {
+                // children element
                 $output .= $this->layout($item['items']);
             }
             else {
                 if ( isset($item['region']) && $item['region'] ) {
+                    // render region
                     $output .= $item['region'];
                 }
             }
@@ -91,6 +101,34 @@ class Laying
         }
 
         // out: <tag attr="value" ...>...</tag>
+        return trim($output);
+    }
+
+
+    /**
+     * @param $key
+     * @param $item
+     * @return string
+     */
+    private function attributes($key, $item)
+    {
+        $output = "";
+
+        if ( isset($this->conf['element']['idAuto']) && !isset($item['attributes']['id']) ) {
+            $item['attributes']['id'] = $key;
+        }
+
+        if ( $this->conf['element']['classAuto'] ) {
+            if ( isset($item['attributes']['class']) ) {
+                $item['attributes']['class'] .= ' ' . $key .'-'.$this->conf['element']['classAutoPrefix'];
+            }
+            else {
+                $item['attributes']['class'] = $key .'-'.$this->conf['element']['classAutoPrefix'];
+            }
+        }
+
+        $output .= Element::attributes($item['attributes']);
+
         return trim($output);
     }
 }

@@ -12,6 +12,7 @@ element:
   postRegion: true # inserisce dopo la regione un'altra regione
   idAuto: true # genera automaticamente l'id univoco per ogni elemento
   classAuto: true # genera automaticamente i nomi delle classi per ogni elemento
+  classAutoPrefix: element # il prefisso delle classi in caso di "classAuto: true"
   defaultType: div # il tipo di default se non definito
 
 # gestisce il comportamento della generazione dei file di template

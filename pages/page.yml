@@ -39,7 +39,7 @@ page: #elementID
               attributes: { class: col-xs-12 col-md-6 }
               region: '{{ preContentSecond }}'
 
-    content: #elementID
+    contentContainer: #elementID
       attributes: { class: container }
 
       items:
