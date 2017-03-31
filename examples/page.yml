@@ -6,8 +6,8 @@
 #     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato tagID come id=""
 #     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
 #     foo: bar # qualsiasi coppia attributo:valore dei tag html
-#   region: regionName # il nome della regione da posizionare, se questa opzione è settata: items non verrà ciclato
-#   items: # un array annidato con altri tag, verrà eseguito se region non è settato
+#   region: regionName # il nome della regione da posizionare, verrà renderizzata se items non è settato
+#   items: # un array annidato con altri tag
 #
 
 page: #elementID
