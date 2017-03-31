@@ -11,7 +11,7 @@ composer require arturu/laying:dev-master
 ```
 cd vendor/arturu/laying
 
-php bin/console render /path/source/pahe.yml > /path/to/template/page.html.twig
+php bin/console render /path/source/page.yml > /path/to/template/page.html.twig
 ```
 
 For example
