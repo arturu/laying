@@ -1,12 +1,12 @@
 # Costruire un array ricorsivo come segue:
 #
-# element: # elementID, nome univoco a libera scelta
+# elementID: # nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
 #   attributes: # opzionale, attributi html
-#     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato tagID come id=""
+#     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato elementID come id="elementID"
 #     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
 #     foo: bar # qualsiasi coppia attributo:valore
-#   region: regionName # il nome della regione da posizionare
+#   region: regionName # il nome della regione da posizionare, deve essere uguale a elementID
 #   items: # un array annidato con altri elementi
 #
 
@@ -14,14 +14,14 @@ page: #elementID
   attributes: { class: page-default }
 
   items:
-    header: #elementID
+    slideshow: #elementID
       type: header
-      region: '{{ slideshow }}' # il nome univoco della region
+      region: '{{ slideshow }}' # posa della regione, in questo esempio ho usato la sintassi twig
 
-    nav: #elementID
+    navbar: #elementID
       type: nav
       attributes: { class: nav }
-      region: '{{ navbar }}'
+      region: '{{ navbar }}' # posa della regione, in questo esempio ho usato la sintassi twig
 
     preContent: #elementID
       attributes: { class: container }
@@ -33,11 +33,11 @@ page: #elementID
           items:
             preContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: '{{ preContentFirst }}'
+              region: '{{ preContentFirst }}' # posa della regione
 
             preContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: '{{ preContentSecond }}'
+              region: '{{ preContentSecond }}' # posa della regione
 
     contentContainer: #elementID
       attributes: { class: container }
@@ -50,12 +50,12 @@ page: #elementID
             content: #elementID
               type: content
               attributes: { class: col-xs-12 col-md-8 }
-              region: '{{ content }}'
+              region: '{{ content }}' # posa della regione
 
-            aside: #elementID
+            sidebar: #elementID
               type: aside
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ sidebar }}'
+              region: '{{ sidebar }}' # posa della regione
 
     afterContent: #elementID
       attributes: { class: container }
@@ -67,15 +67,15 @@ page: #elementID
           items:
             afterContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentFirst }}'
+              region: '{{ afterContentFirst }}' # posa della regione
 
             afterContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentSecond }}'
+              region: '{{ afterContentSecond }}' # posa della regione
 
             afterContentThird: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentThird }}'
+              region: '{{ afterContentThird }}' # posa della regione
 
     footer: #elementID
       type: footer
@@ -88,19 +88,19 @@ page: #elementID
           items:
             footerFirst: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerFirst }}'
+              region: '{{ footerFirst }}' # posa della regione
 
             footerSecond: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerSecond }}'
+              region: '{{ footerSecond }}' # posa della regione
 
             footerThird: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerThird }}'
+              region: '{{ footerThird }}' # posa della regione
 
             footerFourth: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerFourth }}'
+              region: '{{ footerFourth }}' # posa della regione
 
         rowFooterSecond: #elementID
           attributes: { class: row }
@@ -108,8 +108,8 @@ page: #elementID
           items:
             footerCopy: #elementID
               attributes: { class: col-xs-6 }
-              region: '{{ footerCopy }}'
+              region: '{{ footerCopy }}' # posa della regione
 
             footerCredits: #elementID
               attributes: { class: col-xs-6 }
-              region: '{{ footerCredits }}'
+              region: '{{ footerCredits }}' # posa della regione

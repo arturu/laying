@@ -1,35 +1,20 @@
 ## Config del layout default
-## NB per riutilizzare questa configurazione anche per altri layout
 
-# impostazioni per questo layout
-layoutName: page # il nome del layout
+layoutName: page # Il nome del layout
 
-# Questa sezione definisce come laying genera i tag HTML
+# Questa sezione definisce come laying genera gli elementi
 element:
-  wrapper: true # inserisce un contenitore esterno al tag da generare
-  inner: true # inserisce un contenitore interno al tag da generare
-  preRegion: true # inserisce prima della regione un'altra regione
-  postRegion: true # inserisce dopo la regione un'altra regione
-  renderRegionFirst: true # in caso di items annidati allo stesso livello della regione, viene renderizzata prima la regione
-  idAuto: true # genera automaticamente l'id univoco per ogni elemento
-  classAuto: true # genera automaticamente i nomi delle classi per ogni elemento
-  classAutoPrefix: element # il prefisso delle classi in caso di "classAuto: true"
-  defaultType: div # il tipo di default se non definito
+  wrapper: true # Inserisce un contenitore esterno all'elemento da generare. N.B il nodo principale non viene mai wrappato
+  inner: true # Inserisce un contenitore interno all'elemento da generare
+  preRegion: true # Inserisce prima della region un'altra regione aggiungendo come suffiso pre: "elementID-pre"
+  postRegion: true # Inserisce dopo la region un'altra region aggiungendo come suffiso "post": "elementID-post"
+  renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
+  idAuto: true # Genera automaticamente l'id="elementID"
+  classAuto: true # Genera automaticamente i nomi delle classi
+  classAutoPrefix: element # Il prefisso delle classi in caso di "classAuto: true"
+  defaultType: div # Se type non è definito di default verrà usato questo
 
-# gestisce il comportamento della generazione dei file di template
-file:
-  # Se viene impostato un path (inserendo "/" finale) il layout verrà salvato su file.
-  # Altrimenti, settare su "false" per non generare il file e calcolarlo ogni volta,
-  # può essere utile in fase di sviluppo ma impegna molte risorse di sistema
-  path: /path/to/folder/template/
-
-  extension: .tpl.twig # l'estensione del file da generare
-
-  # Se viene impostato un path, prima di scrivere il file, verrà fatta una copia di backup
-  # del layout, altrimenti, settare su "false" per non utilizzare questa funzionalità
-  backup: /path/to/folder/template-backups/
-
-# inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
+# Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
 # la struttura della pagina senza contenuti generati dal CMS
 debugBlock:
   active: false # se attivo o meno
