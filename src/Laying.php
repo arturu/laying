@@ -52,21 +52,9 @@ class Laying
 
         foreach ($items as $key => $item) {
 
-            // search duplicate elementID
-            if ( !isset($this->keyList[$key]) ) {
-                $this->keyList[$key] = true;
-            }
-            else {
-                throw new Exception($key.' duplicate elementID');
-            }
+            $this->checkDuplicateID($key);
 
-            // set element type
-            if (!isset($item['type']) || $item['type']==null ){
-                $elementType = $this->conf['element']['defaultType'];
-            }
-            else {
-                $elementType = $item['type'];
-            }
+            $elementType = $this->elementType($item);
 
             // open element
             $output .= '<'.$elementType;
@@ -79,7 +67,6 @@ class Laying
                 // out: <tag attr="value" ... />
                 return $output . ' />';
             }
-            // or not implicit
             else {
                 $output .= '>';
             }
@@ -129,5 +116,35 @@ class Laying
         $output = Element::attributes($item['attributes']);
 
         return trim($output);
+    }
+
+
+    /**
+     * @param $key
+     */
+    private function checkDuplicateID($key)
+    {
+        // search duplicate elementID
+        if ( !isset($this->keyList[$key]) ) {
+            $this->keyList[$key] = true;
+        }
+        else {
+            throw new Exception($key.' duplicate elementID');
+        }
+    }
+
+
+    /**
+     * @param $item
+     * @return mixed
+     */
+    private function elementType($item)
+    {
+        if (!isset($item['type']) || $item['type']==null ){
+            return $this->conf['element']['defaultType'];
+        }
+        else {
+            return $item['type'];
+        }
     }
 }
