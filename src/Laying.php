@@ -71,16 +71,19 @@ class Laying
                 $output .= '>';
             }
 
-            // recursive function
+            // render region before children element
+            if ( (isset($item['region']) && $item['region']) && $this->conf['element']['renderRegionFirst'] ) {
+                $output .= $this->region($key,$item);
+            }
+
+            // rendering children element
             if ( isset($item['items']) && is_array($item['items']) ) {
-                // children element
                 $output .= $this->layout($item['items']);
             }
-            else {
-                if ( isset($item['region']) && $item['region'] ) {
-                    // render region
-                    $output .= $item['region'];
-                }
+
+            // render region after children element
+            if ( (isset($item['region']) && $item['region']) && !$this->conf['element']['renderRegionFirst']) {
+                $output .= $this->region($key,$item);
             }
 
             // close element
@@ -91,6 +94,20 @@ class Laying
         return trim($output);
     }
 
+
+    /**
+     * @param $key
+     * @param $item
+     * @return string
+     */
+    private function region($key, $item)
+    {
+        $output = '';
+
+        $output .= $item['region'];
+
+        return trim($output);
+    }
 
     /**
      * @param $key
