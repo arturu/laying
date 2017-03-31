@@ -1,3 +1,25 @@
+## Config section
+conf:
+  layoutName: page # Il nome del layout
+
+  # Questa sezione definisce come laying genera gli elementi
+  element:
+    wrapper: true # Inserisce un contenitore esterno all'elemento da generare. N.B il nodo principale non viene mai wrappato
+    inner: true # Inserisce un contenitore interno all'elemento da generare
+    renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
+    idAuto: true # Genera automaticamente l'id="elementID"
+    classAuto: true # Genera automaticamente i nomi delle classi
+    classAutoPrefix: element # Il prefisso delle classi in caso di "classAuto: true"
+    defaultType: div # Se type non è definito di default verrà usato questo
+
+  # Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
+  # la struttura della pagina senza contenuti generati dal CMS
+  debugBlock:
+    active: false # se attivo o meno
+    attributes: { class: well }
+
+
+## Layout section
 # Costruire un array ricorsivo come segue:
 #
 # elementID: # nome univoco a libera scelta
@@ -6,22 +28,25 @@
 #     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato elementID come id="elementID"
 #     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
 #     foo: bar # qualsiasi coppia attributo:valore
-#   region: regionName # il nome della regione da posizionare, deve essere uguale a elementID
+#   regions:
+#     regionName # il nome della regione da posizionare
+#     ... # list regions
 #   items: # un array annidato con altri elementi
 #
-
 page: #elementID
   attributes: { class: page-default }
 
   items:
     slideshow: #elementID
       type: header
-      region: '{{ slideshow }}' # posa della regione, in questo esempio ho usato la sintassi twig
+      regions:
+        - '{{ page.slideshow }}' # posa della regione, in questo esempio ho usato la sintassi drupal twig
 
     navbar: #elementID
       type: nav
       attributes: { class: nav }
-      region: '{{ navbar }}' # posa della regione, in questo esempio ho usato la sintassi twig
+      regions:
+        - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal twig
 
     preContent: #elementID
       attributes: { class: container }
@@ -33,11 +58,13 @@ page: #elementID
           items:
             preContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: '{{ preContentFirst }}' # posa della regione
+              regions:
+                - '{{ page.preContentFirst }}' # posa della regione
 
             preContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-6 }
-              region: '{{ preContentSecond }}' # posa della regione
+              regions:
+                - '{{ page.preContentSecond }}' # posa della regione
 
     contentContainer: #elementID
       attributes: { class: container }
@@ -50,12 +77,16 @@ page: #elementID
             content: #elementID
               type: content
               attributes: { class: col-xs-12 col-md-8 }
-              region: '{{ content }}' # posa della regione
+              regions:
+                - '{{ page.breadcrumb }}' # posa della regione
+                - '{{ page.help  }}' # posa della regione
+                - '{{ page.content }}' # posa della regione
 
             sidebar: #elementID
               type: aside
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ sidebar }}' # posa della regione
+              regions:
+                - '{{ page.sidebar }}' # posa della regione
 
     afterContent: #elementID
       attributes: { class: container }
@@ -67,15 +98,18 @@ page: #elementID
           items:
             afterContentFirst: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentFirst }}' # posa della regione
+              regions:
+                - '{{ page.afterContentFirst }}' # posa della regione
 
             afterContentSecond: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentSecond }}' # posa della regione
+              regions:
+                - '{{ page.afterContentSecond }}' # posa della regione
 
             afterContentThird: #elementID
               attributes: { class: col-xs-12 col-md-4 }
-              region: '{{ afterContentThird }}' # posa della regione
+              regions:
+                - '{{ page.afterContentThird }}' # posa della regione
 
     footer: #elementID
       type: footer
@@ -88,19 +122,23 @@ page: #elementID
           items:
             footerFirst: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerFirst }}' # posa della regione
+              regions:
+                - '{{ page.footerFirst }}' # posa della regione
 
             footerSecond: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerSecond }}' # posa della regione
+              regions:
+                - '{{ page.footerSecond }}' # posa della regione
 
             footerThird: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerThird }}' # posa della regione
+              regions:
+                - '{{ page.footerThird }}' # posa della regione
 
             footerFourth: #elementID
               attributes: { class: col-xs-12 col-md-3 }
-              region: '{{ footerFourth }}' # posa della regione
+              regions:
+                - '{{ page.footerFourth }}' # posa della regione
 
         rowFooterSecond: #elementID
           attributes: { class: row }
@@ -108,8 +146,10 @@ page: #elementID
           items:
             footerCopy: #elementID
               attributes: { class: col-xs-6 }
-              region: '{{ footerCopy }}' # posa della regione
+              regions:
+                - '{{ page.footerCopy }}' # posa della regione
 
             footerCredits: #elementID
               attributes: { class: col-xs-6 }
-              region: '{{ footerCredits }}' # posa della regione
+              regions:
+                - '{{ page.footerCredits }}' # posa della regione

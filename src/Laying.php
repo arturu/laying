@@ -13,23 +13,24 @@ class Laying
 
     /**
      * Laying constructor.
-     * @param $pathLayoutConf
      * @param $pathLayout
      */
-    public function __construct($pathLayoutConf, $pathLayout)
+    public function __construct($pathLayout)
     {
-        if ( !file_exists($pathLayoutConf) || !is_readable($pathLayoutConf) ) {
-            throw new Exception($pathLayoutConf . ' is not accessible.');
-        }
 
         if ( !file_exists($pathLayout) || !is_readable($pathLayout) ) {
             throw new Exception($pathLayout . ' is not accessible.');
         }
 
         $yaml = new Parser();
+        $layout = $yaml->parse(file_get_contents($pathLayout));
 
-        $this->conf = $yaml->parse(file_get_contents($pathLayoutConf));
-        $this->layout = $yaml->parse(file_get_contents($pathLayout));
+        // save conf
+        $this->conf = $layout['conf'];
+
+        // clear conf e save layout
+        unset($layout['conf']);
+        $this->layout = $layout;
     }
 
     /**
@@ -85,11 +86,25 @@ class Laying
      * @param $item
      * @return string
      */
-    private function region($key, $item)
+    private function regions($key, $item)
     {
         $output = '';
+        $countRegion = 0;
 
-        $output .= $item['region'];
+        foreach ($item['regions'] as $region) {
+
+            ++$countRegion;
+
+            $element = array(
+                'type'=> 'div',
+                'attributes'=> array(
+                    'class'=>$key.'-region-'.$countRegion.' region',
+                ),
+                'content' => $region,
+            );
+
+            $output .= Element::element($element);
+        }
 
         return trim($output);
     }
@@ -104,8 +119,8 @@ class Laying
         $output = '';
 
         // render region before children element
-        if ( (isset($item['region']) && $item['region']) && $this->conf['element']['renderRegionFirst'] ) {
-            $output .= $this->region($key,$item);
+        if ( (isset($item['regions']) && $item['regions']) && $this->conf['element']['renderRegionFirst'] ) {
+            $output .= $this->regions($key,$item);
         }
 
         // rendering children element
@@ -114,8 +129,8 @@ class Laying
         }
 
         // render region after children element
-        if ( (isset($item['region']) && $item['region']) && !$this->conf['element']['renderRegionFirst']) {
-            $output .= $this->region($key,$item);
+        if ( (isset($item['regions']) && $item['regions']) && !$this->conf['element']['renderRegionFirst']) {
+            $output .= $this->regions($key,$item);
         }
 
         return trim($output);

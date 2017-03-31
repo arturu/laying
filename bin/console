@@ -11,10 +11,10 @@ else {
 }
 
 use Symfony\Component\Console\Application;
-use Arturu\Laying\Command\MakeCommand;
+use Arturu\Laying\Command\RenderCommand;
 
 $application = new Application();
 
-$application->add(new MakeCommand());
+$application->add(new RenderCommand());
 
 $application->run();
