@@ -59,7 +59,6 @@ class Laying
             // open element
             $output .= '<'.$elementType;
 
-            // setting attributes
             $output .= ' ' . $this->attributes($key,$item);
 
             // if implicit
@@ -71,8 +70,7 @@ class Laying
                 $output .= '>';
             }
 
-            // render element content
-            $output .= $this->content($key,$item);
+            $output .= $this->elementContent($key,$item);
 
             // close element
             $output .= '</'.$elementType.'>';
@@ -101,7 +99,7 @@ class Laying
      * @param $item
      * @return string
      */
-    private function content($key, $item)
+    private function elementContent($key, $item)
     {
         $output = '';
 
@@ -131,10 +129,12 @@ class Laying
     private function attributes($key, $item)
     {
 
+        // idAuto
         if ( isset($this->conf['element']['idAuto']) && !isset($item['attributes']['id']) ) {
             $item['attributes']['id'] = $key;
         }
 
+        // classAuto
         if ( $this->conf['element']['classAuto'] ) {
             if ( isset($item['attributes']['class']) ) {
                 $item['attributes']['class'] .= ' ' . $key .'-'.$this->conf['element']['classAutoPrefix'];
@@ -144,6 +144,7 @@ class Laying
             }
         }
 
+        // rendering attributes
         $output = Element::attributes($item['attributes']);
 
         return trim($output);
