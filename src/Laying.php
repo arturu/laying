@@ -71,20 +71,8 @@ class Laying
                 $output .= '>';
             }
 
-            // render region before children element
-            if ( (isset($item['region']) && $item['region']) && $this->conf['element']['renderRegionFirst'] ) {
-                $output .= $this->region($key,$item);
-            }
-
-            // rendering children element
-            if ( isset($item['items']) && is_array($item['items']) ) {
-                $output .= $this->layout($item['items']);
-            }
-
-            // render region after children element
-            if ( (isset($item['region']) && $item['region']) && !$this->conf['element']['renderRegionFirst']) {
-                $output .= $this->region($key,$item);
-            }
+            // render element content
+            $output .= $this->content($key,$item);
 
             // close element
             $output .= '</'.$elementType.'>';
@@ -93,7 +81,6 @@ class Laying
         // out: <tag attr="value" ...>...</tag>
         return trim($output);
     }
-
 
     /**
      * @param $key
@@ -105,6 +92,33 @@ class Laying
         $output = '';
 
         $output .= $item['region'];
+
+        return trim($output);
+    }
+
+    /**
+     * @param $key
+     * @param $item
+     * @return string
+     */
+    private function content($key, $item)
+    {
+        $output = '';
+
+        // render region before children element
+        if ( (isset($item['region']) && $item['region']) && $this->conf['element']['renderRegionFirst'] ) {
+            $output .= $this->region($key,$item);
+        }
+
+        // rendering children element
+        if ( isset($item['items']) && is_array($item['items']) ) {
+            $output .= $this->layout($item['items']);
+        }
+
+        // render region after children element
+        if ( (isset($item['region']) && $item['region']) && !$this->conf['element']['renderRegionFirst']) {
+            $output .= $this->region($key,$item);
+        }
 
         return trim($output);
     }
@@ -135,7 +149,6 @@ class Laying
         return trim($output);
     }
 
-
     /**
      * @param $key
      */
@@ -146,10 +159,9 @@ class Laying
             $this->keyList[$key] = true;
         }
         else {
-            throw new Exception($key.' duplicate elementID');
+            throw new Exception('Duplicate elementID in YAML configuration: "' . $key .'".');
         }
     }
-
 
     /**
      * @param $item
