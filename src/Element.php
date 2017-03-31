@@ -45,7 +45,7 @@ class Element
 
         // put the content into element
         if ( isset($element['content']) && $element['content'] ) {
-            $output .= var_dump($element['content']);
+            $output .= $element['content'];
         }
 
         // close element
