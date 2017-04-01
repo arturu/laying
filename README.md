@@ -1,5 +1,6 @@
 # Laying
 YAML to HTML template
+
 ![alt tag](http://arturu.it/download/laying-docs/yaml_to_html.png)
 
 ## Installation
