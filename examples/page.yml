@@ -4,8 +4,8 @@ conf:
 
   # Questa sezione definisce come laying genera gli elementi
   element:
-    wrapper: true # Inserisce un contenitore esterno all'elemento da generare. N.B il nodo principale non viene mai wrappato
-    inner: true # Inserisce un contenitore interno all'elemento da generare
+    wrapper: true # (da implementare) Inserisce un contenitore esterno all'elemento da generare. N.B il nodo principale non viene mai wrappato
+    inner: true # (da implementare) Inserisce un contenitore interno all'elemento da generare
     renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
     idAuto: true # Genera automaticamente l'id="elementID"
     classAuto: true # Genera automaticamente i nomi delle classi
@@ -14,7 +14,7 @@ conf:
 
   # Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
   # la struttura della pagina senza contenuti generati dal CMS
-  debugBlock:
+  debugBlock: # (da implementare)
     active: false # se attivo o meno
     attributes: { class: well }
 
