@@ -40,13 +40,13 @@ page: #elementID
     slideshow: #elementID
       type: header
       regions:
-        - '{{ page.slideshow }}' # posa della regione, in questo esempio ho usato la sintassi drupal twig
+        - '{{ page.slideshow }}' # posa della regione, in questo esempio ho usato la sintassi drupal8 twig, puoi anche inserire la sintassi drupal7 "<?php if (!empty($page['machine_name'])) print render($page['machine_name']); ?>" ma ormai è superata
 
     navbar: #elementID
       type: nav
       attributes: { class: nav }
       regions:
-        - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal twig
+        - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal8 twig
 
     preContent: #elementID
       attributes: { class: container }
