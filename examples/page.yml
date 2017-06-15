@@ -15,8 +15,8 @@ conf:
   # Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
   # la struttura della pagina senza contenuti generati dal CMS
   debugBlock: # (da implementare)
-    active: false # se attivo o meno
-    attributes: { class: well }
+    active: true # se attivo o meno
+    class: "well"
 
 
 ## Layout section

@@ -104,6 +104,18 @@ class Laying
             );
 
             $output .= Element::element($element);
+
+            if ($this->conf['debugBlock']['active']){
+                $debugElement = array(
+                    'type'=> 'div',
+                    'attributes'=> array(
+                        'class'=>$key.'-region-'.$countRegion.'-debugBlock debugBlock'.' '.$this->conf['debugBlock']['class'],
+                    ),
+                    'content' => "Debug Block ".$key.'-region-'.$countRegion,
+                );
+
+                $output .= Element::element($debugElement);
+            }
         }
 
         return trim($output);
