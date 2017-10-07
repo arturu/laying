@@ -6,7 +6,7 @@ YAML to HTML template
 ## Installation
 
 ```
-composer require arturu/laying
+composer require arturu/laying --dev
 ```
 
 ## Usage
@@ -37,4 +37,4 @@ php bin/console render examples/page.yml > /path/to/template/page.html.twig
 GPL v3.0
 
 ## Version
-1.0
+1.2
