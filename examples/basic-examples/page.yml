@@ -1,22 +1,31 @@
 ## Config section
 conf:
-  layoutName: page # Il nome del layout
+  layoutName: "page" # Il nome del layout
+  description: "Layout page" # La descrizione del tipo di layout
 
   # Questa sezione definisce come laying genera gli elementi
   element:
-    wrapper: true # (da implementare) Inserisce un contenitore esterno all'elemento da generare. N.B il nodo principale non viene mai wrappato
-    inner: true # (da implementare) Inserisce un contenitore interno all'elemento da generare
-    renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
-    idAuto: true # Genera automaticamente l'id="elementID"
+    defaultType: "div" # Se type non è definito di default verrà usato questo
+    idAuto: true # Genera automaticamente l'attributo id=""
     classAuto: true # Genera automaticamente i nomi delle classi
-    classAutoPrefix: element # Il prefisso delle classi in caso di "classAuto: true"
-    defaultType: div # Se type non è definito di default verrà usato questo
+    element: true # Contenitore delle regioni, si consiglia di lasciare sempre su true eccetto casi molto particolari
+    elementPrefix: "" # Il prefisso delle classi e degli element id in caso di "classAuto: true" o "idAuto: true"
+    elementSuffix: "" # Il suffisso delle classi e degli element id in caso di "classAuto: true" o "idAuto: true"
+    wrapper: true # Inserisce un contenitore esterno all'elemento da generare.
+    wrapperPrefix: "" # Il prefisso delle classi e degli id dei wrapper in caso di "classAuto: true" o "idAuto: true"
+    wrapperSuffix: "-wrapper" # Il suffisso delle classi e degli id dei wrapper in caso di "classAuto: true" o "idAuto: true"
+    inner: true # Inserisce un contenitore interno all'elemento da generare
+    innerPrefix: "" # Il prefisso delle classi e degli id degli inner in caso di "classAuto: true" o "idAuto: true"
+    innerSuffix: "-inner" # Il suffisso delle classi e degli id degli inner in caso di "classAuto: true" o "idAuto: true"
+    renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
+    regionClass: "region" # La classe che verrà impostata ad ogni regione
+    regionSuffix: "-region-" # Inserisce un suffisso alla classe automatica
 
   # Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
   # la struttura della pagina senza contenuti generati dal CMS
-  debugBlock: # (da implementare)
+  debugBlock:
     active: true # se attivo o meno
-    class: "well"
+    class: "-debugBlock debugBlock well"
 
 
 ## Layout section
@@ -24,29 +33,31 @@ conf:
 #
 # elementID: # nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
+#   implicit: true|false # opzionale, chiusura implicita di un elemento senza contenuto
 #   attributes: # opzionale, attributi html
 #     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato elementID come id="elementID"
 #     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
 #     foo: bar # qualsiasi coppia attributo:valore
 #   regions:
-#     regionName # il nome della regione da posizionare
+#     - 'text' # testo da inserire
+#     - { file: 'path/relative/file.ext', parseMode: 'yml|raw'} # è possibile caricare un file esterno
 #     ... # list regions
 #   items: # un array annidato con altri elementi
 #
 page: #elementID
-  attributes: { class: page-default }
+  attributes: { class: page }
 
   items:
     slideshow: #elementID
       type: header
       regions:
-        - '{{ page.slideshow }}' # posa della regione, in questo esempio ho usato la sintassi drupal8 twig, puoi anche inserire la sintassi drupal7 "<?php if (!empty($page['machine_name'])) print render($page['machine_name']); ?>" ma ormai è superata
+        - '{{ page.slideshow }}'
 
     navbar: #elementID
       type: nav
       attributes: { class: nav }
       regions:
-        - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal8 twig
+        - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal8-bootstrap twig
 
     preContent: #elementID
       attributes: { class: container }
@@ -75,7 +86,7 @@ page: #elementID
 
           items:
             content: #elementID
-              type: content
+              type: section
               attributes: { class: col-xs-12 col-md-8 }
               regions:
                 - '{{ page.breadcrumb }}' # posa della regione

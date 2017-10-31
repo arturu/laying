@@ -14,7 +14,7 @@ composer require arturu/laying --dev
 ```
 cd vendor/arturu/laying
 
-php bin/console render /path/source/page.yml > /path/to/template/page.html
+bin/console render /path/source/page.yml > /path/to/template/page.html
 ```
 
 For example
@@ -25,16 +25,13 @@ cd vendor/arturu/laying
 edit configuration file
 
 ```
-gedit examples/page.yml
+gedit examples/basic-examples/page.yml
 ```
 and exec
 
 ```
-php bin/console render examples/page.yml > /path/to/template/page.html.twig
+bin/console render examples/basic-examples/page.yml > /path/to/template/page.html.twig
 ```
 
 ## License
-GPL v3.0
-
-## Version
-1.2
+GPL v3.0 - Read LICENSE file
