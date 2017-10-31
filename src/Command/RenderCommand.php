@@ -42,6 +42,6 @@ class RenderCommand extends Command
 
         $laying = new Laying($pathLayout);
 
-        $output->writeln( $laying->renderLayout() );
+        $output->writeln( $laying->getLayout() );
     }
 }

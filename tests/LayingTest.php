@@ -17,6 +17,6 @@ class LayingTest extends TestCase
     {
         $path = "examples/basic-examples/page.yml";
         $laying = new Laying($path);
-        $this->assertTrue( is_string($laying->renderLayout()) );
+        $this->assertTrue( is_string($laying->getLayout()) );
     }
 }

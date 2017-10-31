@@ -1,0 +1,12 @@
+page-include: #elementID
+  attributes: { class: page-include }
+
+  items:
+    slideshow-include: #elementID
+      regions:
+        - '{{ page.slideshow-include }}'
+
+    navbar-include: #elementID
+      attributes: { class: nav-include }
+      regions:
+        - '{{ page.navbar-include }}' # posa della regione, in questo esempio ho usato la sintassi drupal8-bootstrap twig

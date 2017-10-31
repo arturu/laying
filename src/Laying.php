@@ -64,19 +64,19 @@ class Laying
      * Return page rendered
      * @return string
      */
-    public function renderLayout()
+    public function getLayout()
     {
-        $output = $this->layout($this->layout);
+        $output = $this->renderLayout($this->layout);
 
         return trim($output);
     }
 
     /**
-     * This method and renderContent() are recursive
+     * This method are recursive
      * @param array $items
      * @return string
      */
-    private function layout(array $items)
+    private function renderLayout(array $items)
     {
         $output = "";
 
@@ -84,101 +84,33 @@ class Laying
 
             $this->checkDuplicateID($key);
 
-            // content
-            $content = $this->renderContent($key,$item);
+            $content = '';
+
+            // render region before children element
+            if ( (isset($item['regions']) && $item['regions']) && $this->conf['element']['renderRegionFirst'] ) {
+                $content .= $this->renderRegions($key,$item);
+            }
+
+            // rendering children element
+            if ( isset($item['items']) && is_array($item['items']) ) {
+                $content .= $this->renderLayout($item['items']);
+            }
+
+            // render region after children element
+            if ( (isset($item['regions']) && $item['regions']) && !$this->conf['element']['renderRegionFirst']) {
+                $content .= $this->renderRegions($key,$item);
+            }
 
             // inner container
-            $inner = $this->renderContainer($key, $content, 'inner', $item);
+            $inner = $this->renderElement($key, $content, 'inner', $item);
 
             // element container
-            $element = $this->renderContainer($key,$inner,'element', $item);
+            $element = $this->renderElement($key,$inner,'element', $item);
 
             // wrapper container
-            $output .= $this->renderContainer($key,$element,'wrapper', $item);
+            $output .= $this->renderElement($key,$element,'wrapper', $item);
         }
 
-        return trim($output);
-    }
-
-    /**
-     * This method manage the content rendering of region
-     * @param $key
-     * @param $item
-     * @return string
-     */
-    private function renderContent($key, $item)
-    {
-        $output = '';
-
-        // render region before children element
-        if ( (isset($item['regions']) && $item['regions']) && $this->conf['element']['renderRegionFirst'] ) {
-            $output .= $this->regions($key,$item);
-        }
-
-        // rendering children element
-        if ( isset($item['items']) && is_array($item['items']) ) {
-            $output .= $this->layout($item['items']);
-        }
-
-        // render region after children element
-        if ( (isset($item['regions']) && $item['regions']) && !$this->conf['element']['renderRegionFirst']) {
-            $output .= $this->regions($key,$item);
-        }
-
-        return trim($output);
-    }
-
-    /**
-     * This method rendering the container "element", "inner" and "wrapper"
-     * @param $key
-     * @param $content
-     * @param $container
-     * @param null $item
-     * @return string
-     */
-    private function renderContainer($key, $content, $container, $item)
-    {
-        $output = "";
-
-        // setting containerType
-        $elementType = $this->elementType($item,$container);
-
-        // setting item
-        if ($container != 'element') {
-            $item = array("attributes" => array( "class"=>$container ));
-        }
-
-        // open container
-        if ( $this->useContainer($container) ) {
-            $output .= '<'.$elementType;
-
-            $output .= ' '.
-                $this->attributes(
-                    $key,
-                    $item,
-                    $this->conf['element'][$container.'Prefix'],
-                    $this->conf['element'][$container.'Suffix']
-                );
-
-            // if implicit
-            if ( isset($item['implicit']) && $item['implicit'] ){
-                // out: <tag attr="value" ... />
-                return $output . ' />';
-            }
-            else {
-                $output .= '>';
-            }
-        }
-
-        // writing content
-        $output .= $content;
-
-        // close container
-        if ( $this->useContainer($container) ) {
-            $output .= '</'.$elementType.'>';
-        }
-
-        // out: <tag attr="value" ...>...</tag>
         return trim($output);
     }
 
@@ -188,7 +120,7 @@ class Laying
      * @param $item
      * @return string
      */
-    private function regions($key, $item)
+    private function renderRegions($key, $item)
     {
         $output = '';
         $countRegion = 0;
@@ -197,7 +129,7 @@ class Laying
 
             ++$countRegion;
 
-            $regionContent = $this->regionContent($region);
+            $regionContent = $this->loadRegionContent($region);
 
             $element = array(
                 'type'=> $this->conf['element']['defaultType'],
@@ -226,14 +158,48 @@ class Laying
     }
 
     /**
-     * Rendering content of region
+     * This method rendering the container "element", "inner" and "wrapper"
+     * @param $key
+     * @param $content
+     * @param $container
+     * @param $item
+     * @return string
+     */
+    private function renderElement($key, $content, $container, $item)
+    {
+        $output = "";
+
+        if ( $this->useContainer($container) ) {
+            $element = array(
+                "type" => $this->setElementType($container,$item),
+                "attributes" => $this->setAttributes($key,$container,$item),
+                "implicit" => isset($item['implicit'])?$item['implicit']:false,
+                "content" => $content
+            );
+
+            $output .= Element::render($element);
+        }
+        else {
+            $output .= $content;
+        }
+
+        return trim($output);
+    }
+
+    /**
+     * Load content of region, possible restart recursion
      * @param $region
      * @return string
      */
-    private function regionContent($region)
+    private function loadRegionContent($region)
     {
-        if (is_array($region)){
-            $output = $this->loadFile( $this->pathLayout . '/' . $region['file'], $region['parseMode'] );
+        if ( is_array($region) && $region['parseMode']=='raw' ){
+            $output = $this->loadFile( $this->pathLayout . '/' . $region['file'], 'raw' );
+        }
+        // restart recursion
+        elseif ( is_array($region) && $region['parseMode']=='yml' ){
+            $items = $this->loadFile( $this->pathLayout . '/' . $region['file'], 'yml' );
+            $output = $this->renderLayout( $items );
         }
         else {
             $output = $region;
@@ -243,15 +209,22 @@ class Laying
     }
 
     /**
-     * Rendering attributes
+     * Setting attributes
      * @param $key
      * @param $item
-     * @param string $prefix
-     * @param string $suffix
-     * @return string
+     * @param $container
+     * @return array
      */
-    private function attributes($key, $item, $prefix='', $suffix='')
+    private function setAttributes($key, $container, $item)
     {
+        $prefix = $this->conf['element'][$container.'Prefix'];
+        $suffix = $this->conf['element'][$container.'Suffix'];
+
+        // setting item for container != element
+        if ($container != 'element') {
+            $item = array("attributes" => array( "class"=>$container ));
+        }
+
         // idAuto
         if ( isset($this->conf['element']['idAuto']) && !isset($item['attributes']['id']) ) {
             $item['attributes']['id'] = $prefix.$key.$suffix;
@@ -277,10 +250,7 @@ class Laying
             unset($item['attributes']['class']);
         }
 
-        // rendering attributes
-        $output = Element::attributes($item['attributes']);
-
-        return trim($output);
+        return $item['attributes'];
     }
 
     /**
@@ -290,7 +260,7 @@ class Laying
      * @return mixed
      * @internal param $containerType
      */
-    private function elementType($item,$container)
+    private function setElementType($container,$item)
     {
         // if no type
         if ( isset($item['type']) && $item['type']==null ){
@@ -331,27 +301,18 @@ class Laying
      */
     private function loadFile($path, $parseMode='raw')
     {
-        $this->checkFile($path);
-
-        if ($parseMode=='yml') {
-            $yaml = new Parser();
-            return $yaml->parse(file_get_contents($path));
+        if ( !file_exists($path) || !is_readable($path) ) {
+            throw new Exception($path . ' is not accessible.');
         }
-        elseif ($parseMode=='raw') {
+        elseif ( $parseMode=='yml' ) {
+            $parser = new Parser();
+            return $parser->parse(file_get_contents($path));
+        }
+        elseif ( $parseMode=='raw' ) {
             return trim(file_get_contents($path));
         }
         else {
             throw new Exception('File '.$path.' not loaded: parse mode not specified');
-        }
-    }
-
-    /**
-     * @param $file
-     */
-    private function checkFile($file)
-    {
-        if ( !file_exists($file) || !is_readable($file) ) {
-            throw new Exception($file . ' is not accessible.');
         }
     }
 

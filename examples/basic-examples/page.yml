@@ -164,3 +164,4 @@ page: #elementID
               attributes: { class: col-xs-6 }
               regions:
                 - '{{ page.footerCredits }}' # posa della regione
+                - { file: 'include.yml', parseMode: 'yml'} # è possibile caricare un file esterno
