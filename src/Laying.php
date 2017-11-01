@@ -102,13 +102,13 @@ class Laying
             }
 
             // inner container
-            $inner = $this->renderElement($key, $content, 'inner', $item);
+            $inner = $this->renderElementContainer($key, $content, 'inner', $item);
 
             // element container
-            $element = $this->renderElement($key,$inner,'element', $item);
+            $element = $this->renderElementContainer($key,$inner,'element', $item);
 
             // wrapper container
-            $output .= $this->renderElement($key,$element,'wrapper', $item);
+            $output .= $this->renderElementContainer($key,$element,'wrapper', $item);
         }
 
         return trim($output);
@@ -165,7 +165,7 @@ class Laying
      * @param $item
      * @return string
      */
-    private function renderElement($key, $content, $container, $item)
+    private function renderElementContainer($key, $content, $container, $item)
     {
         $output = "";
 
