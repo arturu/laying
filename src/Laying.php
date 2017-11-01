@@ -35,10 +35,22 @@ class Laying
     private $keyList;
 
     /**
-     * Absolute path of layout file
+     * Absolute path of file
+     * @var string
+     */
+    private $pathLayoutFile;
+
+    /**
+     * Absolute path of folder file
      * @var string
      */
     private $pathLayout;
+
+    /**
+     * File name
+     * @var string
+     */
+    private $fileName;
 
     /**
      * Laying constructor.
@@ -46,18 +58,30 @@ class Laying
      */
     public function __construct($pathLayoutFile)
     {
+        // load default settings
+        $defaultSettings = $this->loadFile(__DIR__.'/default-settings.yml','yml');
+
+        // load layout page
+        $this->pathLayoutFile = $pathLayoutFile;
         $pathExplode = explode('/',$pathLayoutFile);
         $fileName = end($pathExplode);
+
+        $this->fileName = $fileName;
         $this->pathLayout = str_replace('/'.$fileName,'',$pathLayoutFile);
 
-        $page = $this->loadFile($pathLayoutFile,'yml');
+        $layout = $this->loadFile($pathLayoutFile,'yml');
 
-        // save conf
-        $this->conf = $page['conf'];
+        // save end clear conf from layout page
+        if ( isset($layout['conf']) ) {
+            $this->conf = array_replace_recursive($defaultSettings['conf'], $layout['conf']);
+            unset( $layout['conf'] );
+        }
+        else {
+            $this->conf = $defaultSettings['conf'];
+        }
 
-        // clear conf e save page
-        unset($page['conf']);
-        $this->layout = $page;
+        // save page
+        $this->layout = $layout;
     }
 
     /**
@@ -87,7 +111,7 @@ class Laying
             $content = '';
 
             // render region before children element
-            if ( (isset($item['regions']) && $item['regions']) && $this->conf['element']['renderRegionFirst'] ) {
+            if ( (isset($item['regions']) && $item['regions']) && $this->conf['renderRegionFirst'] ) {
                 $content .= $this->renderRegions($key,$item);
             }
 
@@ -97,7 +121,7 @@ class Laying
             }
 
             // render region after children element
-            if ( (isset($item['regions']) && $item['regions']) && !$this->conf['element']['renderRegionFirst']) {
+            if ( (isset($item['regions']) && $item['regions']) && !$this->conf['renderRegionFirst']) {
                 $content .= $this->renderRegions($key,$item);
             }
 
@@ -129,36 +153,19 @@ class Laying
 
             ++$countRegion;
 
-            $regionContent = $this->loadRegionContent($region);
+            $content = $this->loadRegionContent($region);
+            $regionKey = $key.'-'.$this->conf['regionClass'].'-'.$countRegion;
 
-            $element = array(
-                'type'=> $this->conf['element']['defaultType'],
-                'attributes'=> array(
-                    'class'=>$key.$this->conf['element']['regionSuffix'].$countRegion.' '.$this->conf['element']['regionClass'],
-                ),
-                'content' => $regionContent,
-            );
+            $output .= $this->renderElementContainer($regionKey,$content,'region', $item);
 
-            $output .= Element::render($element);
-
-            if ($this->conf['debugBlock']['active']){
-                $debugElement = array(
-                    'type'=> $this->conf['element']['defaultType'],
-                    'attributes'=> array(
-                        'class'=>$key.$this->conf['element']['regionSuffix'].$countRegion.$this->conf['debugBlock']['class'],
-                    ),
-                    'content' => "Debug Block ".$key.$this->conf['element']['regionSuffix'].$countRegion,
-                );
-
-                $output .= Element::render($debugElement);
-            }
+            $output .= $this->debugBlock($key,$item,$countRegion);
         }
 
         return trim($output);
     }
 
     /**
-     * This method rendering the container "element", "inner" and "wrapper"
+     * This method rendering the container "wrapper", "element", "inner" and "region"
      * @param $key
      * @param $content
      * @param $container
@@ -173,7 +180,7 @@ class Laying
             $element = array(
                 "type" => $this->setElementType($container,$item),
                 "attributes" => $this->setAttributes($key,$container,$item),
-                "implicit" => isset($item['implicit'])?$item['implicit']:false,
+                "implicit" => isset($item['implicit']) ? $item['implicit'] : false,
                 "content" => $content
             );
 
@@ -215,18 +222,19 @@ class Laying
      * @param $container
      * @return array
      */
-    private function setAttributes($key, $container, $item)
+    private function setAttributes($key, $container, $item=false)
     {
-        $prefix = $this->conf['element'][$container.'Prefix'];
-        $suffix = $this->conf['element'][$container.'Suffix'];
+        $prefix = $this->conf[$container.'Prefix'];
+        $class = $this->conf[$container.'Class'];
+        $suffix = $this->conf[$container.'Suffix'];
 
-        // setting item for container != element
-        if ($container != 'element') {
-            $item = array("attributes" => array( "class"=>$container ));
+        // reset attributes
+        if (!$this->useItemToAttribute($container)) {
+            $item = array( "attributes" => array("class"=>'') );
         }
 
         // idAuto
-        if ( isset($this->conf['element']['idAuto']) && !isset($item['attributes']['id']) ) {
+        if ( isset($this->conf['idAuto']) && !isset($item['attributes']['id']) ) {
             $item['attributes']['id'] = $prefix.$key.$suffix;
         }
 
@@ -236,12 +244,12 @@ class Laying
         }
 
         // classAuto
-        if ( $this->conf['element']['classAuto'] ) {
+        if ( $this->conf['classAuto'] ) {
             if ( isset($item['attributes']['class']) ) {
-                $item['attributes']['class'] .= ' '.$prefix.$key.$suffix;
+                $item['attributes']['class'] .= ' '.$prefix.$key.$suffix. ' '.$class;
             }
             else {
-                $item['attributes']['class'] = $prefix.$key.$suffix;
+                $item['attributes']['class'] = $prefix.$key.$suffix . ' '.$class;
             }
         }
 
@@ -249,6 +257,11 @@ class Laying
         if ( isset($item['attributes']['class']) && $item['attributes']['class']==null ){
             unset($item['attributes']['class']);
         }
+
+        // clear double space e trim
+        $item['attributes']['class'] = str_replace('  ', ' ', $item['attributes']['class']);
+        $item['attributes']['class'] = trim ($item['attributes']['class']);
+        $item['attributes']['id'] = trim ($item['attributes']['id']);
 
         return $item['attributes'];
     }
@@ -267,15 +280,15 @@ class Laying
             return '';
         }
         // setting type if no wrapper
-        elseif ( $container == 'element' && isset($item['type']) && $this->conf['element']['wrapper']==false ) {
+        elseif ( $container == 'element' && isset($item['type']) && $this->conf['wrapper']==false ) {
             return $item['type'];
         }
         // setting type to wrapper
-        elseif ( $container == 'wrapper' && isset($item['type']) && $this->conf['element']['wrapper'] ) {
+        elseif ( $container == 'wrapper' && isset($item['type']) && $this->conf['wrapper'] ) {
             return $item['type'];
         }
         else {
-            return $this->conf['element']['defaultType'];
+            return $this->conf['defaultType'];
         }
     }
 
@@ -322,11 +335,48 @@ class Laying
      */
     private function useContainer($containerType)
     {
-        if ( isset($this->conf['element'][$containerType]) && $this->conf['element'][$containerType] ){
+        if ( isset($this->conf[$containerType]) && $this->conf[$containerType] ){
+            return true;
+        }
+        elseif ($containerType=="debugBlock") {
             return true;
         }
         else {
             return false;
         }
+    }
+
+    /**
+     * @param $container
+     * @return bool
+     */
+    private function useItemToAttribute($container){
+        if ($container=='element'){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $item
+     * @param $countRegion
+     * @return string
+     */
+    private function debugBlock($key, $item, $countRegion)
+    {
+        $output = "";
+
+        if ($this->conf['debugBlock']){
+
+            $content = "Debug Block ".$key.$this->conf['regionSuffix'].$countRegion;
+            $debugKey = $key.'-'.$this->conf['regionClass'].'-'.$countRegion;
+
+            $output .= $this->renderElementContainer($debugKey,$content,'debugBlock',$item);
+        }
+
+        return trim($output);
     }
 }

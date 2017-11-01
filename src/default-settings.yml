@@ -1,0 +1,42 @@
+## Default configuration
+conf:
+  layoutName: "default-settings" # Layout name
+  description: "Default settings" # Description
+
+  # Rendering options
+  defaultType: "div" # Se type non è definito verrà usato questo
+  idAuto: true # Genera automaticamente l'attributo id=""
+  classAuto: true # Genera automaticamente i nomi delle classi
+
+  # Wrapper settings
+  wrapper: false # Inserisce un contenitore esterno all'elemento da generare.
+  wrapperClass: "wrapper" # La classe che verrà aggiunta ad ogni element wrapper se "classAuto: true"
+  wrapperPrefix: "" # Il prefisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+  wrapperSuffix: "-wrapper" # Il suffisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+
+  # Element settings
+  element: true # Contenitore delle regioni, si consiglia di lasciare sempre su true eccetto casi molto particolari
+  elementClass: "" # La classe che verrà aggiunta ad ogni element container se "classAuto: true"
+  elementPrefix: "" # Il prefisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+  elementSuffix: "" # Il suffisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+
+  # Inner settings
+  inner: false # Inserisce un contenitore interno all'elemento da generare
+  innerClass: "inner" # La classe che verrà aggiunta ad ogni inner container se "classAuto: true"
+  innerPrefix: "" # Il prefisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+  innerSuffix: "-inner" # Il suffisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+
+  # Region settings
+  region: true # Contenitore della singola regione, si consiglia di lasciare sempre su true eccetto casi molto particolari
+  renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
+  regionClass: "region" # La classe che verrà impostata ad ogni regione
+  regionPrefix: "" # Il prefisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+  regionSuffix: "" # Il suffisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+
+  # Blocco di contenuto fisso renderizzato dopo la regione, utile in fase di sviluppo per in modo da visualizzare
+  # la struttura della pagina senza contenuti generati dal CMS
+  debugBlock: false # Se true viene renderizzato il debugBlock
+  debugBlockOnly: false # Se true viene renderizzato solo il debugBlock e non viene renderizzata la regione
+  debugBlockClass: "debugBlock well" # La classe che verrà impostata ad ogni regione
+  debugBlockPrefix: "" # Il prefisso delle classi e degli id se "classAuto: true" o "idAuto: true"
+  debugBlockSuffix: "-debugBlock" # Il suffisso delle classi e degli id se "classAuto: true" o "idAuto: true"

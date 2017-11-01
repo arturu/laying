@@ -1,35 +1,4 @@
-## Config section
-conf:
-  layoutName: "page" # Il nome del layout
-  description: "Layout page" # La descrizione del tipo di layout
-
-  # Questa sezione definisce come laying genera gli elementi
-  element:
-    defaultType: "div" # Se type non è definito di default verrà usato questo
-    idAuto: true # Genera automaticamente l'attributo id=""
-    classAuto: true # Genera automaticamente i nomi delle classi
-    element: true # Contenitore delle regioni, si consiglia di lasciare sempre su true eccetto casi molto particolari
-    elementPrefix: "" # Il prefisso delle classi e degli element id in caso di "classAuto: true" o "idAuto: true"
-    elementSuffix: "" # Il suffisso delle classi e degli element id in caso di "classAuto: true" o "idAuto: true"
-    wrapper: true # Inserisce un contenitore esterno all'elemento da generare.
-    wrapperPrefix: "" # Il prefisso delle classi e degli id dei wrapper in caso di "classAuto: true" o "idAuto: true"
-    wrapperSuffix: "-wrapper" # Il suffisso delle classi e degli id dei wrapper in caso di "classAuto: true" o "idAuto: true"
-    inner: true # Inserisce un contenitore interno all'elemento da generare
-    innerPrefix: "" # Il prefisso delle classi e degli id degli inner in caso di "classAuto: true" o "idAuto: true"
-    innerSuffix: "-inner" # Il suffisso delle classi e degli id degli inner in caso di "classAuto: true" o "idAuto: true"
-    renderRegionFirst: true # Se items e region sono definiti sullo stesso livello, impostando "true" viene renderizzata prima la regione
-    regionClass: "region" # La classe che verrà impostata ad ogni regione
-    regionSuffix: "-region-" # Inserisce un suffisso alla classe automatica
-
-  # Inserisce un blocco di dimensione fissa, utile in fase di sviluppo per visualizzare
-  # la struttura della pagina senza contenuti generati dal CMS
-  debugBlock:
-    active: true # se attivo o meno
-    class: "-debugBlock debugBlock well"
-
-
-## Layout section
-# Costruire un array ricorsivo come segue:
+# Example:
 #
 # elementID: # nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
@@ -45,7 +14,7 @@ conf:
 #   items: # un array annidato con altri elementi
 #
 page: #elementID
-  attributes: { class: page }
+  attributes: { class: page-default }
 
   items:
     slideshow: #elementID
@@ -164,4 +133,3 @@ page: #elementID
               attributes: { class: col-xs-6 }
               regions:
                 - '{{ page.footerCredits }}' # posa della regione
-                - { file: 'include.yml', parseMode: 'yml'} # è possibile caricare un file esterno
