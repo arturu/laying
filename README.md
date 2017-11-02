@@ -25,12 +25,12 @@ cd vendor/arturu/laying
 edit configuration file
 
 ```
-gedit examples/basic-examples/page.yml
+gedit examples/basic-examples/page-standard.yml
 ```
 and exec
 
 ```
-bin/console render examples/basic-examples/page.yml > /path/to/template/page.html.twig
+bin/console render examples/basic-examples/page-standard.yml > /path/to/template/page.html.twig
 ```
 
 ## License
