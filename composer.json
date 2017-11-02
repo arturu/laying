@@ -12,6 +12,7 @@
   ],
   "require": {
     "php": ">=5.5",
+    "ext-tidy": "*",
     "symfony/yaml": ">=2.8",
     "symfony/console": ">=2.8",
     "symfony/process": ">=2.8",

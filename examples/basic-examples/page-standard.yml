@@ -1,0 +1,87 @@
+# Example:
+#
+# conf: #configuration
+#   foo:bar # see src/conf/settings.yml or documentation
+#
+# elementID: # nome univoco a libera scelta
+#   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
+#   implicit: true|false # opzionale, chiusura implicita di un elemento senza contenuto
+#   attributes: # opzionale, attributi html
+#     id: custom|null # opzionale, se non definito o null ed è attivo idAuto: verrà usato elementID come id="elementID"
+#     class: custom|null # opzionale, se attivo classAuto verranno aggiunte combinazioni di nomi dentro class=""
+#     foo: bar # qualsiasi coppia attributo:valore
+#   regionsContent:
+#     - 'text' # testo da inserire
+#     - [ file: 'path/relative/file.ext', parseMode: 'yml|raw' ] # è possibile caricare un file esterno
+#     ... # list regionsContent
+#   items: # un array annidato con altri elementi
+#
+page: #elementID
+  attributes: [ class: "page" ]
+
+  items:
+    navbar: #elementID
+      type: "nav"
+      attributes: [ class: "nav" ]
+      regionsContent:
+        - '{{ navbar }}' # twig sintax
+
+    contentContainer: #elementID
+      attributes: [ class: "container" ]
+
+      items:
+        rowContent: #elementID
+          attributes: [ class: "row" ]
+
+          items:
+            content: #elementID
+              type: "section"
+              attributes: [ class: "col-xs-12 col-md-8" ]
+              regionsContent:
+                - '{{ breadcrumb }}'
+                - '{{ help  }}'
+                - '{{ content }}'
+
+            sidebar: #elementID
+              type: aside
+              attributes: [ class: "col-xs-12 col-md-4" ]
+              regionsContent:
+                - '{{ sidebar }}'
+
+    footer: #elementID
+      type: footer
+      attributes: [ class: "container" ]
+
+      items:
+        rowFooterFirst: #elementID
+          attributes: [ class: "row" ]
+
+          items:
+            footerFirst: #elementID
+              attributes: [ class: "col-xs-12 col-md-4" ]
+              regionsContent:
+                - '{{ footerFirst }}'
+
+            footerSecond: #elementID
+              attributes: [ class: "col-xs-12 col-md-4" ]
+              regionsContent:
+                - '{{ footerSecond }}'
+
+            footerThird: #elementID
+              attributes: [ class: "col-xs-12 col-md-4" ]
+              regionsContent:
+                - '{{ footerThird }}'
+
+        rowFooterSecond: #elementID
+          attributes: [ class: "row" ]
+
+          items:
+            footerCopy: #elementID
+              attributes: [ class: "col-xs-6" ]
+              regionsContent:
+                - '{{ footerCopy }}'
+
+            footerCredits: #elementID
+              attributes: [ class: "col-xs-6" ]
+              regionsContent:
+                - '{{ footerCredits }}'

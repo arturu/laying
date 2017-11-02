@@ -59,7 +59,7 @@ class Laying
     public function __construct($pathLayoutFile)
     {
         // load default settings
-        $defaultSettings = $this->loadFile(__DIR__.'/default-settings.yml','yml');
+        $defaultSettings = $this->loadFile(__DIR__ . '/conf/settings.yml','yml');
 
         // load layout page
         $this->pathLayoutFile = $pathLayoutFile;
@@ -90,9 +90,19 @@ class Laying
      */
     public function getLayout()
     {
-        $output = $this->renderLayout($this->layout);
+        $content = $this->renderLayout($this->layout);
+
+        $output = ($this->conf['compressOutput']) ? $content : $this->tidyOutput($content);
 
         return trim($output);
+    }
+
+    /**
+     * @param $keyList
+     */
+    public function setKeyList($keyList)
+    {
+        $this->keyList = $keyList;
     }
 
     /**
@@ -111,7 +121,7 @@ class Laying
             $content = '';
 
             // render region before children element
-            if ( (isset($item['regions']) && $item['regions']) && $this->conf['renderRegionFirst'] ) {
+            if ( (isset($item['regionsContent']) && $item['regionsContent']) && $this->conf['renderRegionFirst'] ) {
                 $content .= $this->renderRegions($key,$item);
             }
 
@@ -121,7 +131,7 @@ class Laying
             }
 
             // render region after children element
-            if ( (isset($item['regions']) && $item['regions']) && !$this->conf['renderRegionFirst']) {
+            if ( (isset($item['regionsContent']) && $item['regionsContent']) && !$this->conf['renderRegionFirst']) {
                 $content .= $this->renderRegions($key,$item);
             }
 
@@ -149,7 +159,7 @@ class Laying
         $output = '';
         $countRegion = 0;
 
-        foreach ($item['regions'] as $region) {
+        foreach ($item['regionsContent'] as $region) {
 
             ++$countRegion;
 
@@ -205,8 +215,13 @@ class Laying
         }
         // restart recursion
         elseif ( is_array($region) && $region['parseMode']=='yml' ){
-            $items = $this->loadFile( $this->pathLayout . '/' . $region['file'], 'yml' );
-            $output = $this->renderLayout( $items );
+            // new laying object
+            $laying = new Laying($this->pathLayout . '/' . $region['file']);
+
+            // pass keyList
+            $laying->setKeyList( $this->keyList );
+
+            $output = $laying->getLayout();
         }
         else {
             $output = $region;
@@ -222,7 +237,7 @@ class Laying
      * @param $container
      * @return array
      */
-    private function setAttributes($key, $container, $item=false)
+    private function setAttributes($key, $container, $item)
     {
         $prefix = $this->conf[$container.'Prefix'];
         $class = $this->conf[$container.'Class'];
@@ -267,6 +282,20 @@ class Laying
     }
 
     /**
+     * @param $containerType - wrapper, inner, element, region, debugBlock
+     * @return bool
+     */
+    private function useContainer($containerType)
+    {
+        if ( isset($this->conf[$containerType]) && $this->conf[$containerType] ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * Setting element type
      * @param $item
      * @param $container
@@ -275,21 +304,93 @@ class Laying
      */
     private function setElementType($container,$item)
     {
-        // if no type
-        if ( isset($item['type']) && $item['type']==null ){
-            return '';
-        }
-        // setting type if no wrapper
-        elseif ( $container == 'element' && isset($item['type']) && $this->conf['wrapper']==false ) {
-            return $item['type'];
-        }
-        // setting type to wrapper
-        elseif ( $container == 'wrapper' && isset($item['type']) && $this->conf['wrapper'] ) {
-            return $item['type'];
+        // if type is setting
+        if ( isset($item['type']) ){
+
+            if ( $item['type']==null ) {
+                return '';
+            }
+            // Set $item['type'] to wrapper
+            elseif ( $this->conf['wrapper'] && $container == 'wrapper' ) {
+                return $item['type'];
+            }
+            // Set $item['type'] to element
+            elseif ( $this->conf['element'] && $container == 'element' && !$this->conf['wrapper'] ) {
+                return $item['type'];
+            }
+            // Set $item['type'] to inner
+            elseif ( $this->conf['inner'] && $container == 'inner' && !$this->conf['wrapper'] && !$this->conf['element'] ) {
+                return $item['type'];
+            }
+            // Set $item['type'] to region
+            elseif ( $this->conf['region'] && $container == 'region' && !$this->conf['wrapper'] && !$this->conf['element'] && !$this->conf['inner']) {
+                return $item['type'];
+            }
+            else {
+                return $this->conf['defaultType'];
+            }
         }
         else {
             return $this->conf['defaultType'];
         }
+    }
+
+    /**
+     * @param $container
+     * @return bool
+     */
+    private function useItemToAttribute($container){
+        if ( $this->conf['element'] && $container=='element' ){
+            return true;
+        }
+        elseif ( !$this->conf['element'] && !$this->conf['region'] && !$this->conf['inner'] ) {
+            if ( $this->conf['wrapper'] && $container=='wrapper' ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif ( !$this->conf['element'] && !$this->conf['region'] ) {
+            if ( $this->conf['inner'] && $container=='inner' ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif ( !$this->conf['element'] ) {
+            if ( $this->conf['region'] && $container=='region' ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $item
+     * @param $countRegion
+     * @return string
+     */
+    private function debugBlock($key, $item, $countRegion)
+    {
+        $output = "";
+
+        if ($this->conf['debugBlock']){
+
+            $debugKey = $key.'-'.$this->conf['regionClass'].'-'.$countRegion;
+            $content = "Debug Block ".$debugKey;
+
+            $output .= $this->renderElementContainer($debugKey,$content,'debugBlock',$item);
+        }
+
+        return trim($output);
     }
 
     /**
@@ -303,7 +404,7 @@ class Laying
             $this->keyList[$key] = true;
         }
         else {
-            throw new Exception('Duplicate elementID in YAML configuration: "' . $key .'".');
+            throw new Exception('Duplicate elementID ("'.$key .'"") in '.$this->fileName.'.');
         }
     }
 
@@ -330,53 +431,31 @@ class Laying
     }
 
     /**
-     * @param $containerType - inner or wrapper
-     * @return bool
+     * @param $content
+     * @return \tidy
      */
-    private function useContainer($containerType)
+    private function tidyOutput($content)
     {
-        if ( isset($this->conf[$containerType]) && $this->conf[$containerType] ){
-            return true;
-        }
-        elseif ($containerType=="debugBlock") {
-            return true;
+        if (class_exists(\tidy::class)){
+            // tidy configuration
+            $configTidy = array(
+                'indent' => true,
+                'output-xhtml' => true,
+                'show-body-only' => true,
+                'clean' => true,
+                'wrap' => 200
+            );
+
+            // Tidy
+            $tidy = new \tidy();
+            $tidy->parseString($content, $configTidy, 'utf8');
+            $tidy->cleanRepair();
+
+            // Output
+            return $tidy;
         }
         else {
-            return false;
+            return $content;
         }
-    }
-
-    /**
-     * @param $container
-     * @return bool
-     */
-    private function useItemToAttribute($container){
-        if ($container=='element'){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * @param $key
-     * @param $item
-     * @param $countRegion
-     * @return string
-     */
-    private function debugBlock($key, $item, $countRegion)
-    {
-        $output = "";
-
-        if ($this->conf['debugBlock']){
-
-            $content = "Debug Block ".$key.$this->conf['regionSuffix'].$countRegion;
-            $debugKey = $key.'-'.$this->conf['regionClass'].'-'.$countRegion;
-
-            $output .= $this->renderElementContainer($debugKey,$content,'debugBlock',$item);
-        }
-
-        return trim($output);
     }
 }
