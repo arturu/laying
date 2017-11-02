@@ -6,7 +6,7 @@ YAML to HTML template
 ## Installation
 
 ```
-composer require arturu/laying --dev
+composer require arturu/laying
 ```
 
 ## Usage
