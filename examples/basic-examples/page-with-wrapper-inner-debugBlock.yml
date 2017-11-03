@@ -17,12 +17,12 @@ conf:
 #     foo: bar # qualsiasi coppia attributo:valore
 #   regionsContent:
 #     - 'text' # testo da inserire
-#     - [ file: 'path/relative/file.ext', parseMode: 'yml|raw' ] # è possibile caricare un file esterno
+#     - { file: 'path/relative/file.ext', parseMode: 'yml|raw' } # è possibile caricare un file esterno
 #     ... # list regionsContent
 #   items: # un array annidato con altri elementi
 #
 page: #elementID
-  attributes: [ class: "page" ]
+  attributes: { class: "page" }
 
   items:
     slideshow: #elementID
@@ -32,39 +32,39 @@ page: #elementID
 
     navbar: #elementID
       type: "nav"
-      attributes: [ class: "nav" ]
+      attributes: { class: "nav" }
       regionsContent:
         - '{{ page.navbar }}' # posa della regione, in questo esempio ho usato la sintassi drupal8-bootstrap twig
 
     preContent: #elementID
-      attributes: [ class: "container" ]
+      attributes: { class: "container" }
 
       items:
         rowPreContent: #elementID
-          attributes: [ class: "row" ]
+          attributes: { class: "row" }
 
           items:
             preContentFirst: #elementID
-              attributes: [ class: "col-xs-12 col-md-6" ]
+              attributes: { class: "col-xs-12 col-md-6" }
               regionsContent:
                 - '{{ page.preContentFirst }}' # posa della regione
 
             preContentSecond: #elementID
-              attributes: [ class: "col-xs-12 col-md-6" ]
+              attributes: { class: "col-xs-12 col-md-6" }
               regionsContent:
                 - '{{ page.preContentSecond }}' # posa della regione
 
     contentContainer: #elementID
-      attributes: [ class: "container" ]
+      attributes: { class: "container" }
 
       items:
         rowContent: #elementID
-          attributes: [ class: "row" ]
+          attributes: { class: "row" }
 
           items:
             content: #elementID
               type: "section"
-              attributes: [ class: "col-xs-12 col-md-8" ]
+              attributes: { class: "col-xs-12 col-md-8" }
               regionsContent:
                 - '{{ page.breadcrumb }}' # posa della regione
                 - '{{ page.help  }}' # posa della regione
@@ -72,72 +72,72 @@ page: #elementID
 
             sidebar: #elementID
               type: "aside"
-              attributes: [ class: "col-xs-12 col-md-4" ]
+              attributes: { class: "col-xs-12 col-md-4" }
               regionsContent:
                 - '{{ page.sidebar }}' # posa della regione
 
     afterContent: #elementID
-      attributes: [ class: "container" ]
+      attributes: { class: "container" }
 
       items:
         rowAfterContent: #elementID
-          attributes: [ class: "row" ]
+          attributes: { class: "row" }
 
           items:
             afterContentFirst: #elementID
-              attributes: [ class: "col-xs-12 col-md-4" ]
+              attributes: { class: "col-xs-12 col-md-4" }
               regionsContent:
                 - '{{ page.afterContentFirst }}' # posa della regione
 
             afterContentSecond: #elementID
-              attributes: [ class: "col-xs-12 col-md-4" ]
+              attributes: { class: "col-xs-12 col-md-4" }
               regionsContent:
                 - '{{ page.afterContentSecond }}' # posa della regione
 
             afterContentThird: #elementID
-              attributes: [ class: "col-xs-12 col-md-4" ]
+              attributes: { class: "col-xs-12 col-md-4" }
               regionsContent:
                 - '{{ page.afterContentThird }}' # posa della regione
 
     footer: #elementID
       type: "footer"
-      attributes: [ class: "container" ]
+      attributes: { class: "container" }
 
       items:
         rowFooterFirst: #elementID
-          attributes: [ class: "row" ]
+          attributes: { class: "row" }
 
           items:
             footerFirst: #elementID
-              attributes: [ class: "col-xs-12 col-md-3" ]
+              attributes: { class: "col-xs-12 col-md-3" }
               regionsContent:
                 - '{{ page.footerFirst }}' # posa della regione
 
             footerSecond: #elementID
-              attributes: [ class: "col-xs-12 col-md-3" ]
+              attributes: { class: "col-xs-12 col-md-3" }
               regionsContent:
                 - '{{ page.footerSecond }}' # posa della regione
 
             footerThird: #elementID
-              attributes: [ class: "col-xs-12 col-md-3" ]
+              attributes: { class: "col-xs-12 col-md-3" }
               regionsContent:
                 - '{{ page.footerThird }}' # posa della regione
 
             footerFourth: #elementID
-              attributes: [ class: "col-xs-12 col-md-3" ]
+              attributes: { class: "col-xs-12 col-md-3" }
               regionsContent:
                 - '{{ page.footerFourth }}' # posa della regione
 
         rowFooterSecond: #elementID
-          attributes: [ class: "row" ]
+          attributes: { class: "row" }
 
           items:
             footerCopy: #elementID
-              attributes: [ class: "col-xs-6" ]
+              attributes: { class: "col-xs-6" }
               regionsContent:
                 - '{{ page.footerCopy }}' # posa della regione
 
             footerCredits: #elementID
-              attributes: [ class: "col-xs-6" ]
+              attributes: { class: "col-xs-6" }
               regionsContent:
                 - '{{ page.footerCredits }}' # posa della regione

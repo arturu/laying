@@ -16,26 +16,7 @@
 #     ... # list regionsContent
 #   items: # un array annidato con altri elementi
 #
-page: #elementID
-  items:
-    navbar: #elementID
-      type: "nav"
-      regionsContent:
-        - '{{ navbar }}'
-
-    content: #elementID
-      type: "section"
-      regionsContent:
-        - '{{ breadcrumb }}'
-        - '{{ help  }}'
-        - '{{ content }}'
-
-    sidebar: #elementID
-      type: "aside"
-      regionsContent:
-        - '{{ sidebar }}'
-
-    footer: #elementID
-      type: "footer"
-      regionsContent:
-        - '{{ footerFirst }}'
+navbar: #elementID
+  type: "nav"
+  regionsContent:
+    - { file: 'data-examples/twig/navbar.html.twig', parseMode: 'raw'}

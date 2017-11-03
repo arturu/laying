@@ -21,21 +21,21 @@ page: #elementID
     navbar: #elementID
       type: "nav"
       regionsContent:
-        - '{{ navbar }}'
+        - { file: 'regions/data-examples/twig/navbar.html.twig', parseMode: 'raw'}
 
     content: #elementID
       type: "section"
       regionsContent:
-        - '{{ breadcrumb }}'
-        - '{{ help  }}'
-        - '{{ content }}'
+        - { file: 'regions/data-examples/twig/breadcrumb.html.twig', parseMode: 'raw'}
+        - { file: 'regions/data-examples/twig/help.html.twig', parseMode: 'raw'}
+        - { file: 'regions/data-examples/twig/content.html.twig', parseMode: 'raw'}
 
     sidebar: #elementID
       type: "aside"
       regionsContent:
-        - '{{ sidebar }}'
+        - { file: 'regions/data-examples/twig/sidebar.html.twig', parseMode: 'raw'}
 
     footer: #elementID
       type: "footer"
       regionsContent:
-        - '{{ footerFirst }}'
+        - { file: 'regions/data-examples/twig/footer.html.twig', parseMode: 'raw'}

@@ -2,6 +2,8 @@
 #
 # conf: #configuration
 #   foo:bar # see src/conf/default-settings.yml or documentation
+conf:
+  region: false
 # Example apge
 # elementID: # nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
@@ -17,25 +19,8 @@
 #   items: # un array annidato con altri elementi
 #
 page: #elementID
-  items:
-    navbar: #elementID
-      type: "nav"
-      regionsContent:
-        - '{{ navbar }}'
-
-    content: #elementID
-      type: "section"
-      regionsContent:
-        - '{{ breadcrumb }}'
-        - '{{ help  }}'
-        - '{{ content }}'
-
-    sidebar: #elementID
-      type: "aside"
-      regionsContent:
-        - '{{ sidebar }}'
-
-    footer: #elementID
-      type: "footer"
-      regionsContent:
-        - '{{ footerFirst }}'
+  regionsContent:
+    - { file: 'regions/navbar.yml', parseMode: 'yml'}
+    - { file: 'regions/content.yml', parseMode: 'yml'}
+    - { file: 'regions/sidebar.yml', parseMode: 'yml'}
+    - { file: 'regions/footer.yml', parseMode: 'yml'}
