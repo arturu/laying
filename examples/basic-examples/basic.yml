@@ -16,6 +16,10 @@
 #     ... # list regionsContent
 #   items: # un array annidato con altri elementi
 #
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/basic-examples/basic.yml > /path/to/template/page.html.twig
 page:
   items:
     content:

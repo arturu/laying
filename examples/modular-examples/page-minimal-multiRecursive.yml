@@ -18,6 +18,10 @@ conf:
 #     ... # list regionsContent
 #   items: # un array annidato con altri elementi
 #
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/modular-examples/page-minimal-multiRecursive.yml  > /path/to/template/page.html.twig
 page: #elementID
   regionsContent:
     - { file: 'regions/navbar.yml', parseMode: 'yml'}

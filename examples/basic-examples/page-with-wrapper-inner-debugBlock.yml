@@ -21,6 +21,10 @@ conf:
 #     ... # list regionsContent
 #   items: # un array annidato con altri elementi
 #
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/basic-examples/page-with-wrapper-inner-debugBlock.yml  > /path/to/template/page.html.twig
 page: #elementID
   attributes: { class: "page" }
 
