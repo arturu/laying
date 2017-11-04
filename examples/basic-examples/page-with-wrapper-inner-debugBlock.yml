@@ -1,7 +1,7 @@
 # Example Configuration:
 #
 # conf: #configuration
-#   foo:bar # see src/conf/default-settings.yml or documentation
+#   foo:bar # see src/conf/settings.yml or documentation
 conf:
   wrapper: true
   inner: true

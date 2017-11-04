@@ -3,7 +3,7 @@
 conf:
   inner: true
 # conf: #configuration
-#   foo:bar # see src/conf/default-settings.yml or documentation
+#   foo:bar # see src/conf/settings.yml or documentation
 # Example apge
 # elementID: # nome univoco a libera scelta
 #   type: div|header|nav|footer|ecc|null # opzionale, se non definito viene impostato div
