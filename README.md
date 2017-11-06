@@ -1,5 +1,7 @@
 # Laying
-YAML to HTML template
+[![Build Status](https://travis-ci.org/arturu/laying.svg?branch=master)](https://travis-ci.org/arturu/laying)
+
+YAML to XML/HTML file
 
 ![alt tag](http://arturu.it/download/laying-docs/yaml_to_html.png)
 
