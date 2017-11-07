@@ -189,8 +189,9 @@ class Laying
         if ( $this->useContainer($container) ) {
             $element = array(
                 "type" => $this->setElementType($container,$item),
-                "attributes" => $this->setAttributes($key,$container,$item),
                 "implicit" => isset($item['implicit']) ? $item['implicit'] : false,
+                "injectTag" => $this->setInjectTag($container,$item),
+                "attributes" => $this->setAttributes($key,$container,$item),
                 "content" => $content
             );
 
@@ -279,6 +280,36 @@ class Laying
         $item['attributes']['id'] = trim ($item['attributes']['id']);
 
         return $item['attributes'];
+    }
+
+    /**
+     * @param $container
+     * @param $item
+     * @return bool|mixed
+     */
+    private function setInjectTag($container, $item)
+    {
+        // reset injectTag
+        if (!$this->useItemToAttribute($container)) {
+            $item = array( "injectTag" => false );
+        }
+
+        if ( isset($item['injectTag']) && $item['injectTag']!==false ){
+            // setting compressedOutput=true, tidy issue
+            if ( !$this->conf['compressOutput'] && $this->conf['compressOutputAutoDeactivate'] ) {
+                $this->conf['compressOutput'] = true;
+                return $item['injectTag'];
+            }
+            elseif ( !$this->conf['compressOutput'] && !$this->conf['compressOutputAutoDeactivate'] ) {
+                throw new Exception('Sorry, output indent is not possible: injectTag detected. Please set "compressOutputAutoDeactivate" = true, or "compressOutput" = true.');
+            }
+            else {
+                return $item['injectTag'];
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -437,18 +468,9 @@ class Laying
     private function tidyOutput($content)
     {
         if (class_exists(\tidy::class)){
-            // tidy configuration
-            $configTidy = array(
-                'indent' => true,
-                'output-xhtml' => true,
-                'show-body-only' => true,
-                'clean' => true,
-                'wrap' => 200
-            );
-
             // Tidy
             $tidy = new \tidy();
-            $tidy->parseString($content, $configTidy, 'utf8');
+            $tidy->parseString($content, $this->conf['compressOption'], 'utf8');
             $tidy->cleanRepair();
 
             // Output

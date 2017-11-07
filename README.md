@@ -1,7 +1,7 @@
 # Laying
 [![Build Status](https://travis-ci.org/arturu/laying.svg?branch=master)](https://travis-ci.org/arturu/laying)
 
-Laying converts an array in yml format into nested XML / HTML tags. Laying facilitates the development and management of templates for the most popular CMS. In addition, laying allows you to manage the structure of XML files. Laying receives in input a YML file that represents the structure of the file to generate and outputs the result.
+Laying converts an array in YML format into nested XML / HTML tags. Laying facilitates the development and management of templates for the most popular CMS. In addition, laying allows you to manage the structure of XML files. Laying receives in input a YML file that represents the structure of the file to generate and outputs the result.
 
 ![alt tag](http://arturu.it/download/laying-docs/yaml_to_html.png)
 

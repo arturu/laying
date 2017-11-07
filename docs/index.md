@@ -1,5 +1,5 @@
 # Introduction
-Laying converts an array in yml format into nested XML / HTML tags. Laying facilitates the development and management of templates for the most popular CMS. In addition, laying allows you to manage the structure of XML files. Laying receives in input a YML file that represents the structure of the file to generate and outputs the result.
+Laying converts an array in YML format into nested XML / HTML tags. Laying facilitates the development and management of templates for the most popular CMS. In addition, laying allows you to manage the structure of XML files. Laying receives in input a YML file that represents the structure of the file to generate and outputs the result.
 
 ## Installation
 ```
@@ -22,7 +22,7 @@ The output is represented by the following structure:
 elementID: # Unique name. Mandatory
   type: div|header|nav|footer|ecc|null # Optional.
   implicit: " />"|"?>"|">"|ecc # Optional.
-  injectAttributes: "Raw string" # Optional
+  injectTag: "Raw string" # Optional
   attributes: # Optional.
     id: custom|null # Optional.
     class: custom|null # Optional.
@@ -46,25 +46,28 @@ elementID: # Unique name. Mandatory
 |------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------:|:-------------------------------------------:|-----------------------------------------------------|
 | elementID        | Unique name of tag                                                                                                                                                                                                                                                                          |    yes    |                                             | A string key in the camelCase format                    |
 | type             | If set the output will be "\<type ...\>...\<\/type\>". DefaultType (see conf chapter) will be used if not set, example "\<div ... \>...\<\/div\>". If you set null, the tag name will not be rendered, for example "\< ... \>...\<\/\>". "type: null" is only used if you need to render a doctype or xml header |     no    | "div" - See defaultType in the conf chapter | String: "div" "header" "nav" "footer" "custom" null |
-| implicit         | Set this parameter if it is an implicit tag, example "\<type ... \/\>". If type:"img" and implicit is " />" the output will be "\<img ... \/\>". If type:null and implicit is ">" the output will be "\< ... \>". If type:"?xml" and implicit is "?>" the output will be "\<?xml ... ?\>".            |     no    |                                             | String closure: " />", "?>", ">"                    |
-| injectAttributes | Enter raw text inside the opening tag. If injectAttributes:"{{Raw text}}" the output will be "\<type ... {{Raw text}}>...\<\/type\>"                                                                                                                                                            |     no    |                                             | String                                              |
+| implicit         | Set this parameter if it is an implicit tag, example "\<type ... \/\>". If type:"img" and implicit is " />" the output will be "\<img ... \/\>". If type:null and implicit is ">" the output will be "\< ... \>". If type:"?xml" and implicit is "?>" the output will be "\<?xml ... ?\>".  |     no    |                                             | String closure: " />", "?>", ">"                    |
+| injectTag        | Enter raw text inside the opening tag. If injectTag:"{{Raw text}}" the output will be "\<type ... {{Raw text}}>...\<\/type\>". Note: if injectTag is !== false, compressOutput will be set to false                                                                                         |     no    |                                             | String                                              |
 | attributes       | Multidimensional array that contains key pairs and values that represent tag attributes. See attributes chapter.                                                                                                                                                                            |     no    |                                             | array                                               |
 | regionsContent   | Multidimensional array that contains region content. See regionsContent chapter.                                                                                                                                                                                                            |     no    |                                             | array                                               |
 | items            | One or more nested elementIDs                                                                                                                                                                                                                                                               |     no    |                                             | array                                               |
 
 #### Attributes
+...
 
 #### regionsContent
+...
 
 #### Items
+...
 
 ### Structure conf
+Default settings are defined in "src/conf/settings.yml".
 
 | Name              	| Description                                                                                                                                 	| Mandatory 	|       Default      	| Value                                  	|
 |-------------------	|---------------------------------------------------------------------------------------------------------------------------------------------	|:---------:	|:------------------:	|----------------------------------------	|
 | layoutName        	| Machine-name of layout                                                                                                                      	|     no    	| "default-settings" 	| String                                 	|
 | description       	| Description                                                                                                                                 	|     no    	| "Default settings" 	| String                                 	|
-| compressOutput    	| For compress output set "true". For indent output set "false".                                                                              	|     no    	|        false       	| Boolean                                	|
 | defaultType       	| If type is not defined then this will be used. If null is set, nothing will be rendered.                                                    	|     no    	|        "div"       	| div, header, nav, footer, custom, null 	|
 | idAuto            	| Automatically generates the id attribute.                                                                                                   	|     no    	|        true        	| Boolean                                	|
 | classAuto         	| Automatically generates the class attribute.                                                                                                	|     no    	|        true        	| Boolean                                	|
@@ -90,3 +93,6 @@ elementID: # Unique name. Mandatory
 | debugBlockClass   	| The class that will be added to each debugBlock element if "classAuto: true"                                                                	|     no    	|  "debugBlock well" 	| String                                 	|
 | debugBlockPrefix  	| The class and id prefix if "classAuto: true" or "idAuto: true"                                                                              	|     no    	|         ""         	| String                                 	|
 | debugBlockSuffix  	| The suffix of classes and ids if "classAuto: true" or "idAuto: true"                                                                        	|     no    	|    "-debugBlock"   	| String                                 	|
+| compressOutput    	| For compress output set "true". For indent output set "false".                                                                              	|     no    	|        false       	| Boolean                                	|
+| compressOutputAutoDeactivate | Turn true compressOutput if injectTag is setting, there are issue with tidy.                                                           |     no    	|        true       	| Boolean                                	|
+| compressOption    	| See tidy configuration http://api.html-tidy.org/                                                                              	            |     no    	|                   	| tidy array conf                          	|
