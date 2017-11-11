@@ -1,0 +1,28 @@
+# See docs/index.md
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/modular/page-minimal.yml  > /path/to/template/page.html.twig
+page: #elementID
+  items:
+    navbar: #elementID
+      type: "nav"
+      regionsContent:
+        - { file: 'regions/data-examples/twig/navbar.html.twig', parseMode: 'raw'}
+
+    content: #elementID
+      type: "section"
+      regionsContent:
+        - { file: 'regions/data-examples/twig/breadcrumb.html.twig', parseMode: 'raw'}
+        - { file: 'regions/data-examples/twig/help.html.twig', parseMode: 'raw'}
+        - { file: 'regions/data-examples/twig/content.html.twig', parseMode: 'raw'}
+
+    sidebar: #elementID
+      type: "aside"
+      regionsContent:
+        - { file: 'regions/data-examples/twig/sidebar.html.twig', parseMode: 'raw'}
+
+    footer: #elementID
+      type: "footer"
+      regionsContent:
+        - { file: 'regions/data-examples/twig/footer.html.twig', parseMode: 'raw'}

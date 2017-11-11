@@ -1,0 +1,10 @@
+# See docs/index.md
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/basic/basic.yml > /path/to/template/page.html.twig
+page:
+  items:
+    content:
+      regionsContent:
+        - '{{ content }}'

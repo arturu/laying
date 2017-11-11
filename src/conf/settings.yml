@@ -39,12 +39,6 @@ conf:
   debugBlockPrefix: "" # The class that will be added to each debugBlock element if "classAuto: true"
   debugBlockSuffix: "-debugBlock" # The suffix of classes and ids if "classAuto: true" or "idAuto: true"
 
-  compressOutput: false # For compress output set "true". For indent output set "false".
-  compressOutputAutoDeactivate: true # Turn true compressOutput if injectTag is setting, there are issue with tidy.
-  compressOption: # See tidy configuration http://api.html-tidy.org/
-    indent: true
-    show-body-only: true
-
 layingCore:
   containerList: [ "wrapper", "element", "inner", "region" ]  # Lista dei container
   containerDefault: "element" # Il container scelto deve essere impostato su true, settare su false per non scegliere nessuno

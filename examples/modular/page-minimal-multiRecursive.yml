@@ -1,0 +1,14 @@
+# See docs/index.md
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/modular/page-minimal-multiRecursive.yml  > /path/to/template/page.html.twig
+conf:
+  region: false
+
+page: #elementID
+  regionsContent:
+    - { file: 'regions/navbar.yml', parseMode: 'yml'}
+    - { file: 'regions/content.yml', parseMode: 'yml'}
+    - { file: 'regions/sidebar.yml', parseMode: 'yml'}
+    - { file: 'regions/footer.yml', parseMode: 'yml'}

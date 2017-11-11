@@ -1,0 +1,28 @@
+# See docs/index.md
+# For rendering this template
+#
+# cd path/to/vendor/arturu/laying
+# bin/console render examples/basic/page-minimal.yml > /path/to/template/page.html.twig
+page: #elementID
+  items:
+    navbar: #elementID
+      type: "nav"
+      regionsContent:
+        - '{{ navbar }}'
+
+    content: #elementID
+      type: "section"
+      regionsContent:
+        - '{{ breadcrumb }}'
+        - '{{ help  }}'
+        - '{{ content }}'
+
+    sidebar: #elementID
+      type: "aside"
+      regionsContent:
+        - '{{ sidebar }}'
+
+    footer: #elementID
+      type: "footer"
+      regionsContent:
+        - '{{ footerFirst }}'

@@ -1,0 +1,8 @@
+# See docs/index.md
+conf:
+  inner: true
+
+sidebar: #elementID
+  type: "aside"
+  regionsContent:
+    - { file: 'data-examples/twig/sidebar.html.twig', parseMode: 'raw'}

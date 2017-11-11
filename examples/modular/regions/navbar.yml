@@ -1,0 +1,5 @@
+# See docs/index.md
+navbar: #elementID
+  type: "nav"
+  regionsContent:
+    - { file: 'data-examples/twig/navbar.html.twig', parseMode: 'raw'}

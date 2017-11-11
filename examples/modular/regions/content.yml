@@ -1,0 +1,7 @@
+# See docs/index.md
+content: #elementID
+  type: "section"
+  regionsContent:
+    - { file: 'data-examples/twig/breadcrumb.html.twig', parseMode: 'raw'}
+    - { file: 'data-examples/twig/help.html.twig', parseMode: 'raw'}
+    - { file: 'data-examples/twig/content.html.twig', parseMode: 'raw'}

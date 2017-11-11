@@ -90,9 +90,7 @@ class Laying
      */
     public function getLayout()
     {
-        $content = $this->renderLayout($this->layout);
-
-        $output = ($this->conf['compressOutput']) ? $content : $this->tidyOutput($content);
+        $output = $this->renderLayout($this->layout);
 
         return trim($output);
     }
@@ -295,17 +293,7 @@ class Laying
         }
 
         if ( isset($item['injectTag']) && $item['injectTag']!==false ){
-            // setting compressedOutput=true, tidy issue
-            if ( !$this->conf['compressOutput'] && $this->conf['compressOutputAutoDeactivate'] ) {
-                $this->conf['compressOutput'] = true;
-                return $item['injectTag'];
-            }
-            elseif ( !$this->conf['compressOutput'] && !$this->conf['compressOutputAutoDeactivate'] ) {
-                throw new Exception('Sorry, output indent is not possible: injectTag detected. Please set "compressOutputAutoDeactivate" = true, or "compressOutput" = true.');
-            }
-            else {
-                return $item['injectTag'];
-            }
+            return $item['injectTag'];
         }
         else {
             return false;
@@ -458,26 +446,6 @@ class Laying
         }
         else {
             throw new Exception('File '.$path.' not loaded: parse mode not specified');
-        }
-    }
-
-    /**
-     * @param $content
-     * @return \tidy
-     */
-    private function tidyOutput($content)
-    {
-        if (class_exists(\tidy::class)){
-            // Tidy
-            $tidy = new \tidy();
-            $tidy->parseString($content, $this->conf['compressOption'], 'utf8');
-            $tidy->cleanRepair();
-
-            // Output
-            return $tidy;
-        }
-        else {
-            return $content;
         }
     }
 }

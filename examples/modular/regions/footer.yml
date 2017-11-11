@@ -1,0 +1,5 @@
+# See docs/index.md
+footer: #elementID
+  type: "footer"
+  regionsContent:
+    - { file: 'data-examples/twig/footer.html.twig', parseMode: 'raw'}

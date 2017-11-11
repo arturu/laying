@@ -15,6 +15,17 @@ bin/console render /path/to/source/page.yml > /path/to/output/page.html.twig
 
 ## Structure of the YML file
 The source file consists of two main elements: the configuration array and one or more arrays that relate the output. The configuration array is not mandatory.
+For example:
+```
+conf: # this array contains the laying configuration
+  key:value
+  key2:value2
+
+elementID: # this array is the output structure
+  ...
+
+```
+See examples folder for more examples
 
 ### Structure array
 The output is represented by the following structure:
@@ -53,13 +64,28 @@ elementID: # Unique name. Mandatory
 | items            | One or more nested elementIDs                                                                                                                                                                                                                                                               |     no    |                                             | array                                               |
 
 #### Attributes
-...
+| Name   | Description                                                                                    | Mandatory | Default | Value  |
+|--------|------------------------------------------------------------------------------------------------|:---------:|:-------:|--------|
+| id     | The tag id attribute. If not defined and idAuto is true it will be generated automatically.    |     no    |         | String |
+| class  | The tag class attribute. If not defined and idAuto is true it will be generated automatically. |     no    |         | String |
+| custom | Any key-value combination                                                                      |     no    |         | String |
 
 #### regionsContent
-...
+The content of the region. Content can be entered in two ways: either raw text, or by file.
+First mode:
+```
+regionsContent: # Optional.
+    - 'Raw text' # Optional.
+```
+Second mode:
+```
+regionsContent:
+    - { file: 'path/relative/file.ext', parseMode: 'yml|raw' }
+```
+The file can be interpreted in two ways. In YML mode, the file starts laying again. In raw mode, the content is loaded roughly.
 
 #### Items
-...
+Items contains nested elementsID arrays.
 
 ### Structure conf
 Default settings are defined in "src/conf/settings.yml".
@@ -93,6 +119,3 @@ Default settings are defined in "src/conf/settings.yml".
 | debugBlockClass   	| The class that will be added to each debugBlock element if "classAuto: true"                                                                	|     no    	|  "debugBlock well" 	| String                                 	|
 | debugBlockPrefix  	| The class and id prefix if "classAuto: true" or "idAuto: true"                                                                              	|     no    	|         ""         	| String                                 	|
 | debugBlockSuffix  	| The suffix of classes and ids if "classAuto: true" or "idAuto: true"                                                                        	|     no    	|    "-debugBlock"   	| String                                 	|
-| compressOutput    	| For compress output set "true". For indent output set "false".                                                                              	|     no    	|        false       	| Boolean                                	|
-| compressOutputAutoDeactivate | Turn true compressOutput if injectTag is setting, there are issue with tidy.                                                           |     no    	|        true       	| Boolean                                	|
-| compressOption    	| See tidy configuration http://api.html-tidy.org/                                                                              	            |     no    	|                   	| tidy array conf                          	|
