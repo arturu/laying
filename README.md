@@ -27,7 +27,7 @@ cd vendor/arturu/laying
 edit configuration file
 
 ```
-gedit examples/basic-examples/page-standard.yml
+nano examples/basic-examples/page-standard.yml
 ```
 and exec
 
